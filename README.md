@@ -1,58 +1,55 @@
 # Project-Breakout-LIME
 PROJECT BREAKOUT // LIME DOCUMENTATION
+
 BY zzcyann
 
 —----------------------------------------------------------------------------------------------------------------------------
 
 Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakout? Well the end goal of this project is to reverse engineer LockedIn, and find its weaknesses, and ultimately, bypass the app without detection. Now this document also mentions LIME, LIME stands for Locked In Mirage Exterminator. LIME is a root level script that neutralizes Lockedin while bypassing its defenses. It's currently Android only but jailbreak iphones might work in the future. LIME is fully invisible since it uses a firewall that modifies the linux kernel’s network stack. And it uses low level Android Framework commands to neutralize lockedin, and its components can also be disabled with PM (Package Manager). And to prevent lockedin from somehow rebooting, LIME hijacks Workmanager and PM so Android can't even see lockedin. Now lockedin can't patch LIME due to numerous reasons. Read Section 8 for more detail. I've started this project because I really don't like it when we have to install school mandated apps on our OWN hardware. If the school gave us school phones like school chromebooks, then i wouldn't complain really, but this is MY phone and my hardware. So obviously I'm going to bypass it :/.
 
-SCREENSHOT OF THE ORIGINAL ANNOUNCEMENT
-
-This was the original announcement made on 5/19/25 at 9:22AM Pacific Time. This announcement was made in the private discord server for Team PEG. As soon as this announcement was made, that officially kickstarted Project Breakout.
-
-==============================================
+=============================================
 PROJECT BREAKOUT \ LIME || SECTION LIST
 =============================================
 
- SECTION 1: The Paradox
- SECTION 1.5: The Illusion
- SECTION 2: THE DEFENSE
- SECTION 2.5: False Positives
+  SECTION 1: The Paradox
+ - SECTION 1.5: The Illusion
+  SECTION 2: THE DEFENSE
+ - SECTION 2.5: False Positives
 
  SECTION 3: Breaking Through The Layers
 
 
  SECTION 4: THE SCRIPT FIGHTS BACK
- SECTION 4.1: Boot Time
- SECTION 4.2: The Firewall
- SECTION 4.3: The Killer
- SECTION 4.4: Freeze!
- SECTION 4.5: Features :D
- SECTION 4.6: Dead Man's Switch
- SECTION 4.65: The Bypass
- SECTION 4.7: The Exploit
- SECTION 4.8: Lime Maintainer
- SECTION 4.9: Why Lime Can't Be Defeated
+ - SECTION 4.1: Boot Time
+ - SECTION 4.2: The Firewall
+ - SECTION 4.3: The Killer
+ - SECTION 4.4: Freeze!
+ - SECTION 4.5: Features :D
+ - SECTION 4.6: Dead Man's Switch
+ - SECTION 4.65: The Bypass
+ - SECTION 4.7: The Exploit
+ - SECTION 4.8: Lime Maintainer
+ - SECTION 4.9: Why Lime Can't Be Defeated
 
-  SECTION 5: Clearing Out Landmines
-  SECTION 5.1: Hardware Trips
-  SECTION 5.2: Service Triggers
-  SECTION 5.3: Network & Misc Triggers
-  SECTION 5.4: Play Integrity
+ SECTION 5: Clearing Out Landmines
+ - SECTION 5.1: Hardware Trips
+ - SECTION 5.2: Service Triggers
+ - SECTION 5.3: Network & Misc Triggers
+ - SECTION 5.4: Play Integrity
 
 
  SECTION 6: How to Root
- SECTION 6.1: Preparation
- SECTION 6.2: Unlocking Bootloader
- SECTION 6.3: Gaining Sudo
- SECTION 6.4: Its So Sour!!
+ - SECTION 6.1: Preparation
+ - SECTION 6.2: Unlocking Bootloader
+ - SECTION 6.3: Gaining Sudo
+ - SECTION 6.4: Its So Sour!!
 
- SECTION 7: Future Proofing
- SECTION 8: The Hard Loop
+  SECTION 7: Future Proofing
+  SECTION 8: The Hard Loop
+ 
+  SECTION 9: Lockedin’s physical solutions & Why they fail.
 
-SECTION 9: Lockedin’s physical solutions & Why they fail.
-
-SECTION 10: Credits
+  SECTION 10: Credits
 
 ================================================================================
 
@@ -177,11 +174,7 @@ then, the firewall engages (we are still in post fs stage) and since the BOOT_CO
 
 TARGET_UID=\$(get_current_uid)
 if [ -n \"\$TARGET_UID\" ]; then
-iptables -C OUTPUT -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null || iptables -I OUTPUT 1 -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null
-
-1
-
-	
+iptables -C OUTPUT -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null || iptables -I OUTPUT 1 -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null	
 
 ip6tables -C OUTPUT -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null ||    ip6tables -I OUTPUT 1 -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null
 
@@ -201,14 +194,6 @@ am force-stop is executed! now AM (activity manager) resides in the android fram
 SECTION 4.4: FREEZE!
 
 This is where PM (package manager) comes in, LIME will use PM to disable individual components of lockedin.
-
-1
-2
-3
-4
-5
-
-	
 
 pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.BlockAccessibilityService\" 2>/dev/null
 pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.StatusService\" 2>/dev/null
@@ -231,14 +216,14 @@ PermissionCheckWorker: this is so lockedin cant tell if its permission is blocke
 SECTION 4.5: FEATURES! :D
 
 LIME has some pretty cool features, now some of these features DON'T come with LIME and you may have to set them up on your own, but here's a list
+    
+(almost) FULL IMMUNITY, Lockedin cant do anything about LIME since it runs as root.
 
-    (almost) FULL IMMUNITY, Lockedin cant do anything about LIME since it runs as root.
+ BUILT IN FIREWALL, this is a 2nd security layer, this also acts as a half spoof method so lockedin's servers will see an offline state, which isn't suspicious since lockedin can't tell between a firewall or a dead battery. This is crucial so you don't get caught!
+  
+a toggle switch! well the toggle is a file, essentially it dictates if LIME is allowed to run, BUT i designed it so the firewall isn't bound to the toggle, and it runs 24/7, only way to disable the firewall is to manually kill the script using pkill and flush the ip rules. Now if you want a home screen widget, you would have to use termux:widgets extension.
 
-    BUILT IN FIREWALL, this is a 2nd security layer, this also acts as a half spoof method so lockedin's servers will see an offline state, which isn't suspicious since lockedin can't tell between a firewall or a dead battery. This is crucial so you don't get caught!
-
-    a toggle switch! well the toggle is a file, essentially it dictates if LIME is allowed to run, BUT i designed it so the firewall isn't bound to the toggle, and it runs 24/7, only way to disable the firewall is to manually kill the script using pkill and flush the ip rules. Now if you want a home screen widget, you would have to use termux:widgets extension.
-
-    SELF HEALING, the firewall is self healing, so if an IT guy tries to flush the ip tables, the firewall immediately reactivates, now this isn't foolproof since if the IT guy finds the script, he can just disable it :/. i mean i cant make the script impossible to remove like cmon thats stupid.
+   SELF HEALING, the firewall is self healing, so if an IT guy tries to flush the ip tables, the firewall immediately reactivates, now this isn't foolproof since if the IT guy finds the script, he can just disable it :/. i mean i cant make the script impossible to remove like cmon thats stupid.
 
 yeah those are the features of LIME, some are pretty cool :D
 
@@ -278,28 +263,6 @@ Now here is how it works when a student is using a bypass, when a student activa
 
 .method public onReceive(Landroid/content/Context;Landroid/content/Intent;)V
 .locals 3
-
- 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-
-	
-
 
 invoke-static {p1}, Lcom/lockedin/student/utils/Prefs;->isDefused(Landroid/content/Context;)Z
 move-result v0
@@ -358,25 +321,6 @@ the maintainer script checks for the process killer, the script toggle, the fire
 SECTION 4.9: why LIME cant be defeated.
 
 LIME cannot be defeated AT ALL. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it. The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script. including here. where it's protected by 3 layers of encryption.
-
-(the actual script is protected, this is just documentation)
-
-SECTION 4 SUMMARY
-
-=======================================================================
-LIME CHRONOLOGICAL SYSTEM INIT
-=======================================================================
-[ POST-FS-DATA BOOT STAGE ] ──► Section 4.1: targets are defined
-│
-▼
-[ FIREWALL ACTIVATES ] ──► Section 4.2: Kernel Firewall Active
-│
-▼
-[ ANDROID STARTS STABALIZING ] ──► Section 4.3: Watchdog Killer Unleashed
-│
-▼
-[ COMPONENT FREEZING] ──► Section 4.4: Registry Freezing (PM)
-=======================================================================
 
 SECTION 5: CLEARING OUT LANDMINES
 
@@ -521,13 +465,13 @@ SECTION 6.1: PREPARATION
 
 WHAT YOU ABSOLUTELY NEED!
 
-    an android phone WITH UNLOCKABLE BOOTLOADER!!
+   an android phone WITH UNLOCKABLE BOOTLOADER!!
 
-    a pc, any pc works including macs, ADB MUST BE INSTALLED
+   a pc, any pc works including macs, ADB MUST BE INSTALLED
 
-    a usb c cable, CHARGING ONLY CABLES WILL NOT WORK!
+   a usb c cable, CHARGING ONLY CABLES WILL NOT WORK!
 
-    your phone's firmware image!
+   your phone's firmware image!
 
 SECTION 6.2: Unlocking bootloader
 
@@ -535,10 +479,10 @@ WARNING: THIS WILL ERASE ALL DATA AND (if you have one) YOUR E-SIM!
 
 WARNING 2: IF YOU SKIP OR DO ANY STEPS WRONG, YOU MAY HARD BRICK YOUR PHONE. DO AT YOUR OWN RISK.
 
-    go to settings, and search for build number, its usually in the about section, press it 7 times to enable developer mode
+ go to settings, and search for build number, its usually in the about section, press it 7 times to enable developer mode
     scroll a bit down till you see oem bootloader unlock, and enable it, if its greyed out, your OEM might have locked the bootloader, or you need to do extra steps, visit https://github.com/zenfyrdev/bootloader-unlock-wall-of-shame to see if your OEM eg: samsung lets you unlock your bootloader, if its permanently locked, this bypass will not work
     
-    Once you enable OEM bootloader unlock, power off your phone completely, then hold the power + volume down buttons, it might be different for different OEM's for example it might be power + vol up. anyways wait until you see text that says "fastboot.."
+  Once you enable OEM bootloader unlock, power off your phone completely, then hold the power + volume down buttons, it might be different for different OEM's for example it might be power + vol up. anyways wait until you see text that says "fastboot.."
     connect your phone to your PC with ADB installed, then open the terminal on your pc and run one of these, "fastboot flashing unlock" OR "fastboot oem unlock", then enter "fastboot reboot"
 
 now you have the ability to flash custom boot images, which is what we need!, also dont try to edit buildprops or use LIME yet, unlocking bootloader DOES NOT MEAN root!
@@ -549,7 +493,7 @@ Now that the bootloader is unlocked, you can flash custom/patched boot images! w
 
 WARNING 3: Now you need to be careful, you can brick your phone if you do these steps wrong..!
 
-    search for your phone's firmware image and download it, the firmware image should be pretty large, for example my phone's firmware image is 3GB. once you find the firmware image, download it, AND MAKE SURE ITS NOT FROM A SKETCHY ASS SITE!!
+ search for your phone's firmware image and download it, the firmware image should be pretty large, for example my phone's firmware image is 3GB. once you find the firmware image, download it, AND MAKE SURE ITS NOT FROM A SKETCHY ASS SITE!!
     transfer the firmware image to your phone (if you downloaded the firmware image on your phone, skip this step, all you need to do is get the firmware image to your phone.)
     go to https://github.com/topjohnwu/Magisk/releases and download the apk, it might ask you to allow downloads from other sources, enable that. Once you download the apk, install it.
     Once magisk is installed, open it and click the install button, click select a patched file and select your phone's firmware image. it should spit out a ~40mb boot image
@@ -557,7 +501,7 @@ WARNING 3: Now you need to be careful, you can brick your phone if you do these 
 
 PS: you have to re-enable dev mode and enable usb debug because of the factory reset!
 
-    Go to developer options, then scroll down until you see USB debugging, enable it. Then connect your phone to your pc.
+ Go to developer options, then scroll down until you see USB debugging, enable it. Then connect your phone to your pc.
     Once you enable usb debug run this command: adb devices your phone may ask you to authorize this computer, allow it. The command should NOT RETURN, "unauthorized".
     then on your phone, press and hold power + volume down, (or pwr +vol up) you may have to fully shut off your phone or the key combo might be different, once you enter fastboot mode (there should be a little text that says FASTBOOT..)
     Once you enter fastboot, on your pc, navigate to where the patched boot image is stored using the CD command, for example if you patched img is in the downloads folder, the command (for windows) is cd C:\users[whatever user u have]\downloads[patched boot img] once you find it, execute this command: fastboot boot magisk_patched.img
@@ -570,7 +514,7 @@ SECTION 6.4: IT'S SO SOUR!
 
 congrats! Now you are rooted! but there's still some things you need to do!
 
-    install play integrity fix, this will patch some of the build props,
+  install play integrity fix, this will patch some of the build props,
     if you want future proofing, install trickystore!
 
 PS: also since the bootloader unlock wiped your phone, lockedin will complain about uninstalls, so just say smth about a glitch or say that you were cleaning storage. BUT TO AVOID IT, ROOT YOUR PHONE BEFORE SCHOOL STARTS :D
