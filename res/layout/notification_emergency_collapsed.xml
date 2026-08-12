@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@color/emergency_red_dark" android:padding="12.0dp" android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/emergency_icon" android:layout_width="32.0dp" android:layout_height="32.0dp" android:src="@drawable/ic_emergency_default" android:contentDescription="@string/emergency_title" android:layout_marginEnd="12.0dp" />
+    <LinearLayout android:orientation="vertical" android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <TextView android:textSize="15.0sp" android:textStyle="bold" android:textColor="@color/emergency_text_primary" android:ellipsize="end" android:id="@id/emergency_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/emergency_title" android:maxLines="1" />
+        <TextView android:textSize="13.0sp" android:textColor="@color/emergency_text_secondary" android:ellipsize="end" android:id="@id/emergency_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/emergency_type_default" android:maxLines="1" />
+    </LinearLayout>
+    <Chronometer android:textSize="12.0sp" android:textColor="@color/emergency_text_tertiary" android:id="@id/emergency_chronometer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8.0dp" />
+</LinearLayout>

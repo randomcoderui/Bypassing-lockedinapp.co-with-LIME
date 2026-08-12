@@ -1,0 +1,57 @@
+.class final Lretrofit2/BuiltInConverters$ToStringConverter;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+# interfaces
+.implements Lretrofit2/Converter;
+
+
+# annotations
+.annotation system Ldalvik/annotation/EnclosingClass;
+    value = Lretrofit2/BuiltInConverters;
+.end annotation
+
+.annotation system Ldalvik/annotation/InnerClass;
+    accessFlags = 0x19
+    name = "ToStringConverter"
+.end annotation
+
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Lretrofit2/Converter<",
+        "Ljava/lang/Object;",
+        "Ljava/lang/String;",
+        ">;"
+    }
+.end annotation
+
+
+# static fields
+.field public static final a:Lretrofit2/BuiltInConverters$ToStringConverter;
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 1
+
+    new-instance v0, Lretrofit2/BuiltInConverters$ToStringConverter;
+
+    invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+
+    sput-object v0, Lretrofit2/BuiltInConverters$ToStringConverter;->a:Lretrofit2/BuiltInConverters$ToStringConverter;
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public final a(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 0
+
+    invoke-virtual {p1}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    move-result-object p0
+
+    return-object p0
+.end method

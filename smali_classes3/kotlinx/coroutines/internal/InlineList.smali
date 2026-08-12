@@ -1,0 +1,107 @@
+.class public final Lkotlinx/coroutines/internal/InlineList;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+
+# annotations
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "<E:",
+        "Ljava/lang/Object;",
+        ">",
+        "Ljava/lang/Object;"
+    }
+.end annotation
+
+.annotation runtime Lkotlin/Metadata;
+.end annotation
+
+.annotation runtime Lkotlin/jvm/JvmInline;
+.end annotation
+
+
+# direct methods
+.method public static final a(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 2
+
+    if-nez p0, :cond_0
+
+    return-object p1
+
+    :cond_0
+    instance-of v0, p0, Ljava/util/ArrayList;
+
+    if-eqz v0, :cond_1
+
+    move-object v0, p0
+
+    check-cast v0, Ljava/util/ArrayList;
+
+    invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    return-object p0
+
+    :cond_1
+    new-instance v0, Ljava/util/ArrayList;
+
+    const/4 v1, 0x4
+
+    invoke-direct {v0, v1}, Ljava/util/ArrayList;-><init>(I)V
+
+    invoke-virtual {v0, p0}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    return-object v0
+.end method
+
+
+# virtual methods
+.method public final equals(Ljava/lang/Object;)Z
+    .locals 0
+
+    instance-of p0, p1, Lkotlinx/coroutines/internal/InlineList;
+
+    if-nez p0, :cond_0
+
+    goto :goto_0
+
+    :cond_0
+    check-cast p1, Lkotlinx/coroutines/internal/InlineList;
+
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    const/4 p0, 0x0
+
+    invoke-static {p0, p0}, Lkotlin/jvm/internal/Intrinsics;->c(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result p0
+
+    if-nez p0, :cond_1
+
+    :goto_0
+    const/4 p0, 0x0
+
+    return p0
+
+    :cond_1
+    const/4 p0, 0x1
+
+    return p0
+.end method
+
+.method public final hashCode()I
+    .locals 0
+
+    const/4 p0, 0x0
+
+    return p0
+.end method
+
+.method public final toString()Ljava/lang/String;
+    .locals 0
+
+    const-string p0, "InlineList(holder=null)"
+
+    return-object p0
+.end method

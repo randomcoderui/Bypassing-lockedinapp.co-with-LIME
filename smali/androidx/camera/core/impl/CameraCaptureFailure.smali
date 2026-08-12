@@ -1,0 +1,11 @@
+.class public Landroidx/camera/core/impl/CameraCaptureFailure;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+
+# annotations
+.annotation system Ldalvik/annotation/MemberClasses;
+    value = {
+        Landroidx/camera/core/impl/CameraCaptureFailure$Reason;
+    }
+.end annotation

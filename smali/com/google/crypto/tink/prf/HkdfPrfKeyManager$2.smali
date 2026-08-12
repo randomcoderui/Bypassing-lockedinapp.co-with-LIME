@@ -1,0 +1,64 @@
+.class Lcom/google/crypto/tink/prf/HkdfPrfKeyManager$2;
+.super Lcom/google/crypto/tink/internal/PrimitiveFactory;
+.source "SourceFile"
+
+
+# annotations
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Lcom/google/crypto/tink/internal/PrimitiveFactory<",
+        "Lcom/google/crypto/tink/prf/Prf;",
+        "Lcom/google/crypto/tink/proto/HkdfPrfKey;",
+        ">;"
+    }
+.end annotation
+
+
+# virtual methods
+.method public final a(Lcom/google/crypto/tink/shaded/protobuf/MessageLite;)Ljava/lang/Object;
+    .locals 2
+
+    check-cast p1, Lcom/google/crypto/tink/proto/HkdfPrfKey;
+
+    new-instance p0, Lcom/google/crypto/tink/subtle/prf/HkdfStreamingPrf;
+
+    invoke-virtual {p1}, Lcom/google/crypto/tink/proto/HkdfPrfKey;->I()Lcom/google/crypto/tink/proto/HkdfPrfParams;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Lcom/google/crypto/tink/proto/HkdfPrfParams;->G()Lcom/google/crypto/tink/proto/HashType;
+
+    move-result-object v0
+
+    invoke-static {v0}, Lcom/google/crypto/tink/prf/HkdfPrfKeyManager;->h(Lcom/google/crypto/tink/proto/HashType;)Lcom/google/crypto/tink/subtle/Enums$HashType;
+
+    move-result-object v0
+
+    invoke-virtual {p1}, Lcom/google/crypto/tink/proto/HkdfPrfKey;->H()Lcom/google/crypto/tink/shaded/protobuf/ByteString;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Lcom/google/crypto/tink/shaded/protobuf/ByteString;->v()[B
+
+    move-result-object v1
+
+    invoke-virtual {p1}, Lcom/google/crypto/tink/proto/HkdfPrfKey;->I()Lcom/google/crypto/tink/proto/HkdfPrfParams;
+
+    move-result-object p1
+
+    invoke-virtual {p1}, Lcom/google/crypto/tink/proto/HkdfPrfParams;->H()Lcom/google/crypto/tink/shaded/protobuf/ByteString;
+
+    move-result-object p1
+
+    invoke-virtual {p1}, Lcom/google/crypto/tink/shaded/protobuf/ByteString;->v()[B
+
+    move-result-object p1
+
+    invoke-direct {p0, v0, v1, p1}, Lcom/google/crypto/tink/subtle/prf/HkdfStreamingPrf;-><init>(Lcom/google/crypto/tink/subtle/Enums$HashType;[B[B)V
+
+    new-instance p1, Lcom/google/crypto/tink/subtle/prf/PrfImpl;
+
+    invoke-direct {p1, p0}, Lcom/google/crypto/tink/subtle/prf/PrfImpl;-><init>(Lcom/google/crypto/tink/subtle/prf/HkdfStreamingPrf;)V
+
+    return-object p1
+.end method

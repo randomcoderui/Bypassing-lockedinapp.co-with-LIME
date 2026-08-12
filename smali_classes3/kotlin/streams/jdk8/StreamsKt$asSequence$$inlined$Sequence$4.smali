@@ -1,0 +1,30 @@
+.class public final Lkotlin/streams/jdk8/StreamsKt$asSequence$$inlined$Sequence$4;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+# interfaces
+.implements Lkotlin/sequences/Sequence;
+
+
+# annotations
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Lkotlin/sequences/Sequence<",
+        "Ljava/lang/Double;",
+        ">;"
+    }
+.end annotation
+
+.annotation runtime Lkotlin/Metadata;
+.end annotation
+
+
+# virtual methods
+.method public final iterator()Ljava/util/Iterator;
+    .locals 0
+
+    const/4 p0, 0x0
+
+    throw p0
+.end method

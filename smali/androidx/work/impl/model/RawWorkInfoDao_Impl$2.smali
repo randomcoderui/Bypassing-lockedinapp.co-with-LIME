@@ -1,0 +1,28 @@
+.class Landroidx/work/impl/model/RawWorkInfoDao_Impl$2;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+# interfaces
+.implements Ljava/util/concurrent/Callable;
+
+
+# annotations
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Ljava/util/concurrent/Callable<",
+        "Ljava/util/List<",
+        "Landroidx/work/impl/model/WorkSpec$WorkInfoPojo;",
+        ">;>;"
+    }
+.end annotation
+
+
+# virtual methods
+.method public final call()Ljava/lang/Object;
+    .locals 0
+
+    const/4 p0, 0x0
+
+    throw p0
+.end method

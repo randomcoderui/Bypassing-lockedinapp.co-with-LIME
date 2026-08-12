@@ -1,0 +1,34 @@
+.class public Landroidx/vectordrawable/graphics/drawable/PathInterpolatorCompat;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+# interfaces
+.implements Landroid/view/animation/Interpolator;
+
+
+# virtual methods
+.method public final getInterpolation(F)F
+    .locals 1
+
+    const/4 p0, 0x0
+
+    cmpg-float v0, p1, p0
+
+    if-gtz v0, :cond_0
+
+    return p0
+
+    :cond_0
+    const/high16 p0, 0x3f800000    # 1.0f
+
+    cmpl-float p1, p1, p0
+
+    if-ltz p1, :cond_1
+
+    return p0
+
+    :cond_1
+    const/4 p0, 0x0
+
+    throw p0
+.end method

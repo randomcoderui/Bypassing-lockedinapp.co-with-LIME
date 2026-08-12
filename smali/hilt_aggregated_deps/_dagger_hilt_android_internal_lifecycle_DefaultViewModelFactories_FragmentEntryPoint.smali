@@ -1,0 +1,3 @@
+.class public Lhilt_aggregated_deps/_dagger_hilt_android_internal_lifecycle_DefaultViewModelFactories_FragmentEntryPoint;
+.super Ljava/lang/Object;
+.source "SourceFile"

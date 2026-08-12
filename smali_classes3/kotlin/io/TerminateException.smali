@@ -1,0 +1,8 @@
+.class final Lkotlin/io/TerminateException;
+.super Lkotlin/io/FileSystemException;
+.source "SourceFile"
+
+
+# annotations
+.annotation runtime Lkotlin/Metadata;
+.end annotation

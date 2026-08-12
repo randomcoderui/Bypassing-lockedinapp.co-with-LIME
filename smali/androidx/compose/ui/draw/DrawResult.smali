@@ -1,0 +1,12 @@
+.class public final Landroidx/compose/ui/draw/DrawResult;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+
+# annotations
+.annotation runtime Lkotlin/Metadata;
+.end annotation
+
+
+# instance fields
+.field public a:Lkotlin/jvm/internal/Lambda;
