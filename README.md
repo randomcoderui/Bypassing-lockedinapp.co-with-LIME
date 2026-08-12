@@ -47,6 +47,7 @@ SECTION 2: THE DEFENSE
  - SECTION 6.4: Its So Sour!!
 
   SECTION 7: Future Proofing
+  
   SECTION 8: The Hard Loop
  
   SECTION 9: Lockedin’s physical solutions & Why they fail.
