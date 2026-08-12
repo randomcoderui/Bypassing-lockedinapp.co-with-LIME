@@ -9,7 +9,7 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 
 =============================================
 PROJECT BREAKOUT \ LIME || SECTION LIST
-=============================================
+=====================================
 
   SECTION 1: The Paradox
  - SECTION 1.5: The Illusion
