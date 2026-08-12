@@ -11,55 +11,49 @@ SCREENSHOT OF THE ORIGINAL ANNOUNCEMENT
 
 This was the original announcement made on 5/19/25 at 9:22AM Pacific Time. This announcement was made in the private discord server for Team PEG. As soon as this announcement was made, that officially kickstarted Project Breakout.
 
-================================================================================
+==============================================
 PROJECT BREAKOUT \ LIME || SECTION LIST
-================================================================================
+==============================================
 
-PHASE I: ARCHITECTURAL THEORY & ANALYSIS
-├── SECTION 1: The Paradox
-├── SECTION 1.5: The Illusion
-├── SECTION 2: THE DEFENSE
-└── SECTION 2.5: False Positives
+ SECTION 1: The Paradox
+ SECTION 1.5: The Illusion
+ SECTION 2: THE DEFENSE
+ SECTION 2.5: False Positives
 
-PHASE II: REVERSE ENGINEERING & DECOMPILATION FRAGMENTS
-└── SECTION 3: Breaking Through The Layers
+ SECTION 3: Breaking Through The Layers
 
-PHASE III: LIME
-├── SECTION 4: THE SCRIPT FIGHTS BACK
-├── SECTION 4.1: Boot Time
-├── SECTION 4.2: The Firewall
-├── SECTION 4.3: The Killer
-├── SECTION 4.4: Freeze!
-├── SECTION 4.5: Features :D
-├── SECTION 4.6: Dead Man's Switch
-├── SECTION 4.65: The Bypass
-├── SECTION 4.7: The Exploit
-├── SECTION 4.8: Lime Maintainer
-└── SECTION 4.9: Why Lime Can't Be Defeated
 
-PHASE IV: DEFENSE MAPPING & DESTRUCTION
-├── SECTION 5: Clearing Out Landmines
-├── SECTION 5.1: Hardware Trips
-├── SECTION 5.2: Service Triggers
-├── SECTION 5.3: Network & Misc Triggers
-└── SECTION 5.4: Play Integrity
+ SECTION 4: THE SCRIPT FIGHTS BACK
+ SECTION 4.1: Boot Time
+ SECTION 4.2: The Firewall
+ SECTION 4.3: The Killer
+ SECTION 4.4: Freeze!
+ SECTION 4.5: Features :D
+ SECTION 4.6: Dead Man's Switch
+ SECTION 4.65: The Bypass
+ SECTION 4.7: The Exploit
+ SECTION 4.8: Lime Maintainer
+ SECTION 4.9: Why Lime Can't Be Defeated
 
-PHASE V: HOW TO ROOT
-├── SECTION 6: How to Root
-├── SECTION 6.1: Preparation
-├── SECTION 6.2: Unlocking Bootloader
-├── SECTION 6.3: Gaining Sudo
-└── SECTION 6.4: Its So Sour!!
+  SECTION 5: Clearing Out Landmines
+  SECTION 5.1: Hardware Trips
+  SECTION 5.2: Service Triggers
+  SECTION 5.3: Network & Misc Triggers
+  SECTION 5.4: Play Integrity
 
-PHASE VI: 2 STEPS AHEAD
-├── SECTION 7: Future Proofing
-└── SECTION 8: The Hard Loop
 
-PHASE VII: How institutions work
-└── SECTION 9: Lockedin’s physical solutions & Why they fail.
+ SECTION 6: How to Root
+ SECTION 6.1: Preparation
+ SECTION 6.2: Unlocking Bootloader
+ SECTION 6.3: Gaining Sudo
+ SECTION 6.4: Its So Sour!!
 
-PHASE VIII: Thanks
-└── SECTION 10: Credits
+ SECTION 7: Future Proofing
+ SECTION 8: The Hard Loop
+
+SECTION 9: Lockedin’s physical solutions & Why they fail.
+
+SECTION 10: Credits
 
 ================================================================================
 
