@@ -307,21 +307,20 @@ Now here is how it works when a student is using a bypass, when a student activa
 
 	
 
-# 1. Instantly query the local persistent preferences
+
 invoke-static {p1}, Lcom/lockedin/student/utils/Prefs;->isDefused(Landroid/content/Context;)Z
 move-result v0
 if-eqz v0, :cond_0 # If clean, skip lockdown
 
-# 2. TRAP CONDITION: Heartbeat was missed! Trigger Lockdown Mode
+
 const-string v1, "DeadManSwitchReceiver"
 const-string v2, "CRITICAL: Missed heartbeat boundary. Forcing a lockdown state."
 invoke-static {v1, v2}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
 
-# Shifting the global configuration state to absolute lockout mode
 sget-object v0, Lcom/lockedin/student/models/BlockMode;->LOCKDOWN:Lcom/lockedin/student/models/BlockMode;
 invoke-static {v0}, Lcom/lockedin/student/services/SecurityService;->setMode(Lcom/lockedin/student/models/BlockMode;)V
 
-# Forcefully launching the un-swipeable Kiosk Overlay Activity panel
+
 invoke-static {p1}, Lcom/lockedin/student/utils/UI;->launchLockScreen(Landroid/content/Context;)V
 :cond_0
 return-void
