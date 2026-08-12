@@ -13,7 +13,9 @@ PROJECT BREAKOUT \ LIME || SECTION LIST
 
   SECTION 1: The Paradox
  - SECTION 1.5: The Illusion
-  SECTION 2: THE DEFENSE
+ 
+SECTION 2: THE DEFENSE
+
  - SECTION 2.5: False Positives
 
  SECTION 3: Breaking Through The Layers
