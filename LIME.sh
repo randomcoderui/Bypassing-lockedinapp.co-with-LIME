@@ -1,5 +1,6 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
+# THIS IS ONLY TESTED FOR ANDROID 14!
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/local/tmp/bypass_on"
 
