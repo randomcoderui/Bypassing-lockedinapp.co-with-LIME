@@ -524,7 +524,7 @@ PS: also since the bootloader unlock wiped your phone, lockedin will complain ab
 
 now you can use LIME :D, just go to the discord server and download the latest version of LIME! then install termux from f-droid, set up the toggle scripts (also in the releases channel!) and now you are done!
 
-SECTION 7: FUTURE PROOFING
+## SECTION 7: Future Proofing
 
 well, inevitablely, whether i get caught, or if i get snitched on. my IT department might catch me. but as ive said, lockedin cant win against rooted users, so ive compiled a list of patches that they MIGHT do. This is just extra documentation in case this scenario happens.
 
