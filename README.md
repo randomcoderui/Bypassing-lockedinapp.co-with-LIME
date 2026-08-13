@@ -46,7 +46,7 @@ SECTION 2: THE DEFENSE
  - SECTION 6.3: Gaining Sudo
  - SECTION 6.4: Its So Sour!!
 
-  SECTION 7: Future Proofing
+  [SECTION 7: Future Proofing](#section-7-future-proofing)
   
   SECTION 8: The Hard Loop
  
