@@ -11,36 +11,36 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 # PROJECT BREAKOUT \ LIME || SECTION LIST
 
 * [SECTION 1: The Paradox](#section-1-the-paradox)
- - SECTION 1.5: The Illusion
+  * [SECTION 1.5: The Illusion](#section-15-the-illusion)
  
 * [SECTION 2: THE DEFENSE](#section-2-the-defense)
- - SECTION 2.5: False Positives
+  * [SECTION 2.5: False Positives](#section-25-false-positives)
 
 * [SECTION 3: Breaking Through The Layers](#section-3-breaking-through-the-layers)
 
 * [SECTION 4: THE SCRIPT FIGHTS BACK](#section-4-the-script-fights-back)
- - SECTION 4.1: Boot Time
- - SECTION 4.2: The Firewall
- - SECTION 4.3: The Killer
- - SECTION 4.4: Freeze!
- - SECTION 4.5: Features :D
- - SECTION 4.6: Dead Man's Switch
- - SECTION 4.65: The Bypass
- - SECTION 4.7: The Exploit
- - SECTION 4.8: Lime Maintainer
- - SECTION 4.9: Why Lime Can't Be Defeated
+  * [SECTION 4.1: Boot Time](#section-41-boot-time)
+  * [SECTION 4.2: The Firewall](#section-42-the-firewall)
+  * [SECTION 4.3: The Killer](#section-43-the-killer)
+  * [SECTION 4.4: Freeze!](#section-44-freeze)
+  * [SECTION 4.5: Features :D](#section-45-features-d)
+  * [SECTION 4.6: Dead Man's Switch](#section-46-dead-mans-switch)
+  * [SECTION 4.65: The Bypass](#section-465-the-bypass)
+  * [SECTION 4.7: The Exploit](#section-47-the-exploit)
+  * [SECTION 4.8: Lime Maintainer](#section-48-lime-maintainer)
+  * [SECTION 4.9: Why Lime Can't Be Defeated](#section-49-why-lime-cant-be-defeated)
 
 * [SECTION 5: Clearing Out Landmines](#section-5-clearing-out-landmines)
- - SECTION 5.1: Hardware Trips
- - SECTION 5.2: Service Triggers
- - SECTION 5.3: Network & Misc Triggers
- - SECTION 5.4: Play Integrity
+  * [SECTION 5.1: Hardware Trips](#section-51-hardware-trips)
+  * [SECTION 5.2: Service Triggers](#section-52-service-triggers)
+  * [SECTION 5.3: Network & Misc Triggers](#section-53-network--misc-triggers)
+  * [SECTION 5.4: Play Integrity](#section-54-play-integrity)
 
 * [SECTION 6: How to Root](#section-6-how-to-root)
- - SECTION 6.1: Preparation
- - SECTION 6.2: Unlocking Bootloader
- - SECTION 6.3: Gaining Sudo
- - SECTION 6.4: Its So Sour!!
+  * [SECTION 6.1: Preparation](#section-61-preparation)
+  * [SECTION 6.2: Unlocking Bootloader](#section-62-unlocking-bootloader)
+  * [SECTION 6.3: Gaining Sudo](#section-63-gaining-sudo)
+  * [SECTION 6.4: Its So Sour!!](#section-64-its-so-sour)
 
 * [SECTION 7: Future Proofing](#section-7-future-proofing)
   
@@ -49,6 +49,7 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 * [SECTION 9: Lockedin’s physical solutions & Why they fail.](#section-9-lockedins-physical-solutions--why-they-fail)
 
 * [SECTION 10: Credits](#section-10-credits)
+
 
 
 ================================================================================
@@ -153,7 +154,7 @@ ok. Here's how the script fights back against lockedin. and ill explain how it u
 
 (also the script has a name, which is LIME, or Locked In Mirage Exterminator)
 
-SECTION 4.1: BOOT TIME
+## SECTION 4.1: BOOT TIME
 
 as soon as the phone boots. the kernel does its usual android stuff. but here in the post fs stage, magisk will activate and will activate any scripts in /data/adb/service.d
 
@@ -168,7 +169,7 @@ stat -c '%u' \"/data/data/\$TARGET_PKG\" 2>/dev/null
 fi
 }
 
-SECTION 4.2: FIREWALL
+## SECTION 4.2: FIREWALL
 
 then, the firewall engages (we are still in post fs stage) and since the BOOT_COMPLETED message hasn't been broadcast,the firewall will be able to prevent ANY leaks from happening. This firewall targets "com.lockedin.student" and makes it so all the packets immediately DROP.
 
@@ -182,7 +183,7 @@ fi
 
 PS: there's a duplicate in case the first iptables rule fails!
 
-SECTION 4.3: THE KILLER
+## SECTION 4.3: THE KILLER
 
 now we have finished booting :D! now LIME will delay itself by 1 second so android can stabilize itself
 
@@ -191,7 +192,7 @@ while [ \"\$(getprop sys.boot_completed)\" != \"1\" ]; do sleep 1; done
 after that. The ultimate executioner is released. The watchdog is unleashed and
 am force-stop is executed! now AM (activity manager) resides in the android framework layer. It's the 2nd layer, above the normal apps, but it's overshadowed by the linux kernel.
 
-SECTION 4.4: FREEZE!
+## SECTION 4.4: FREEZE!
 
 This is where PM (package manager) comes in, LIME will use PM to disable individual components of lockedin.
 
@@ -213,7 +214,7 @@ BootReciver: this is blocked so lockedin can't tell if the phone has booted or n
 
 PermissionCheckWorker: this is so lockedin cant tell if its permission is blocked. thats why its disabled
 
-SECTION 4.5: FEATURES! :D
+## SECTION 4.5: FEATURES! :D
 
 LIME has some pretty cool features, now some of these features DON'T come with LIME and you may have to set them up on your own, but here's a list
     
@@ -227,7 +228,7 @@ a toggle switch! well the toggle is a file, essentially it dictates if LIME is a
 
 yeah those are the features of LIME, some are pretty cool :D
 
-SECTION 4.6: DeadManSwitch
+## SECTION 4.6: DeadManSwitch
 
 lockedin has a dedicated deadmanswitch, its responsible for keeping lockedin active 24/7, well android kills background process's for battery life and thermals, so lockedin has a timer that uses androids alarm service,
 
@@ -285,13 +286,13 @@ return-void
 
 this sends a message to the servers that a student has tampered with the app, and the admins are notified,
 
-SECTION 4.65: bypass lol
+## SECTION 4.65: bypass lol
 
 yeah uh, well the script disables the deadmans switch lol!
 
 pm disable-user --user 0 "com.lockedin.student/com.lockedin.student.services.DeadManSwitchReceiver"
 
-SECTION 4.7: THE EXPLOIT
+## SECTION 4.7: THE EXPLOIT
 
 ok so when i was looking through lockedin's code, there was a flaw, essentially, there is an encrypted preferences file with all of its session tokens, and its tracking values, geofence coords and other highly sensitive stuff? Well for some reason, if the encrypted version is corrupted, it falls back to a PLAIN UNENCRYPTED text file, allowing us to change whatever the hell we want.
 Snippet: Secure Storage Fallback Defect
@@ -304,7 +305,7 @@ idk why the hell they did this, i mean im not an expert at android coding but cm
 
 we can change student grade level, name, we can inject geofence coords, and other stuff. This is mainly to pass manual inspection! however this only works for about 3-15 seconds before lockedin is able to fully respond and overwrite the data.
 
-SECTION 4.8: LIME-MAINTAINER
+## SECTION 4.8: LIME-MAINTAINER
 
 well obviously i have to keep track incase a part of the script fails, so i made it so it has 4 codes
 
@@ -318,7 +319,7 @@ red = LIME is failing & not working at all
 
 the maintainer script checks for the process killer, the script toggle, the firewall, and appops perm status.
 
-SECTION 4.9: why LIME cant be defeated.
+## SECTION 4.9: why LIME cant be defeated.
 
 LIME cannot be defeated AT ALL. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it. The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script. including here. where it's protected by 3 layers of encryption.
 
@@ -326,7 +327,7 @@ LIME cannot be defeated AT ALL. no matter what patches the lockedin developers t
 
 so im going to explain all 19 flags in detail and how LIME bypasses each of them
 
-SECTION 5.1: HARDWARE TRIPS
+## SECTION 5.1: HARDWARE TRIPS
 
 M0 = root detected, it detects root by scanning /system or /sbin for su, and it probes for root managers, and scans for build props
 
@@ -352,7 +353,7 @@ D1 = 2nd profile detected! it detects with "unset UserManager"
 
 bypass: LIME does not use secondary profiles
 
-SECTION 5.2: SERVICE TRIGGERS
+## SECTION 5.2: SERVICE TRIGGERS
 
 C1: NO SIM!, it checks telephony manager, and if it returns one, it flags it as a burner phone!
 
@@ -393,7 +394,7 @@ J1: permission compliant workers, it scans to see if a user disabled permissions
 
 Bypass: LIME freezes permission compliant service for lockedin!
 
-SECTION 5.3: NETWORK AND PERIPHERAL TRIGGERS
+## SECTION 5.3: NETWORK AND PERIPHERAL TRIGGERS
 
 A1: MOCK LOCATION DETECTED!
 
@@ -427,7 +428,7 @@ Q1: Network socket trust (SSL PIN), it hardcodes a strict key to block sniffers
 
 bypass: LIME doesn't view network packets, also the firewall blocks them
 
-SECTION 5.4: Play Integrity
+## SECTION 5.4: Play Integrity
 
 Lockedin uses play integrity to determine if the phone is a safe environment
 This piece of code sends a request to interact with google play services
@@ -461,7 +462,7 @@ In this section, I'm gonna explain how to ROOT YOUR ANDROID PHONE! this is one o
 
 # WARNING: IF YOU ARE CONFUSED BY THESE INSTRUCTIONS, THEN SEARCH UP A GUIDE!!
 
-SECTION 6.1: PREPARATION
+## SECTION 6.1: PREPARATION
 
 WHAT YOU ABSOLUTELY NEED!
 
@@ -473,7 +474,7 @@ WHAT YOU ABSOLUTELY NEED!
 
    your phone's firmware image!
 
-SECTION 6.2: Unlocking bootloader
+## SECTION 6.2: Unlocking bootloader
 
 WARNING: THIS WILL ERASE ALL DATA AND (if you have one) YOUR E-SIM!
 
@@ -487,7 +488,7 @@ WARNING 2: IF YOU SKIP OR DO ANY STEPS WRONG, YOU MAY HARD BRICK YOUR PHONE. DO 
 
 now you have the ability to flash custom boot images, which is what we need!, also dont try to edit buildprops or use LIME yet, unlocking bootloader DOES NOT MEAN root!
 
-SECTION 6.3: SUDO :D
+## SECTION 6.3: SUDO :D
 
 Now that the bootloader is unlocked, you can flash custom/patched boot images! we are gonna be using magisk so we can gain root access
 
@@ -510,7 +511,7 @@ PS: you have to re-enable dev mode and enable usb debug because of the factory r
 
 Now you did the hard part hooray :> now root won't stop lockedinapp, but it makes neutralizing it wayy easier. Now on to the final phase hehehe..
 
-SECTION 6.4: IT'S SO SOUR!
+## SECTION 6.4: IT'S SO SOUR!
 
 congrats! Now you are rooted! but there's still some things you need to do!
 
