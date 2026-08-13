@@ -56,6 +56,7 @@ unified_watchdog() {
       # --- BYPASS IS ENABLED  ---
       
       # 1. pm disable stuff
+      pm disable --user 0 \"\$TARGET_PKG/com.lockedin.student.MainActivity\" 2>/dev/null
       pm disable "$TARGET_PKG/.services.BlockAccessibilityService" 2>/dev/null
       pm disable "$TARGET_PKG/.services.BlockNotificationListener" 2>/dev/null
       pm disable "$TARGET_PKG/.services.DeadManSwitchReceiver" 2>/dev/null
@@ -91,6 +92,7 @@ unified_watchdog() {
         CURRENT_UID=$(get_current_uid)
 
         # 2. Temporarily thaw specific components
+        pm disable --user 0 \"\$TARGET_PKG/com.lockedin.student.MainActivity\" 2>/dev/null
         pm enable "$TARGET_PKG/.services.BootReceiver" 2>/dev/null
         pm enable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
         pm enable "$TARGET_PKG/androidx.work.impl.background.systemalarm.SystemAlarmService" 2>/dev/null
