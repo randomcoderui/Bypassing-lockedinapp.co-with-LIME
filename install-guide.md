@@ -1,3 +1,5 @@
+##install-guide.md
+
 ## HOW TO INSTALL AND USE LIME!
 this is how to install LIME and use it
 
