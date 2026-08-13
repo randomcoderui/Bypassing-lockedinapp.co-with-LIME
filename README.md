@@ -10,18 +10,15 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 
 # PROJECT BREAKOUT \ LIME || SECTION LIST
 
-
-  SECTION 1: The Paradox
+* [SECTION 1: The Paradox](#section-1-the-paradox)
  - SECTION 1.5: The Illusion
  
-SECTION 2: THE DEFENSE
-
+* [SECTION 2: THE DEFENSE](#section-2-the-defense)
  - SECTION 2.5: False Positives
 
- SECTION 3: Breaking Through The Layers
+* [SECTION 3: Breaking Through The Layers](#section-3-breaking-through-the-layers)
 
-
- SECTION 4: THE SCRIPT FIGHTS BACK
+* [SECTION 4: THE SCRIPT FIGHTS BACK](#section-4-the-script-fights-back)
  - SECTION 4.1: Boot Time
  - SECTION 4.2: The Firewall
  - SECTION 4.3: The Killer
@@ -33,38 +30,38 @@ SECTION 2: THE DEFENSE
  - SECTION 4.8: Lime Maintainer
  - SECTION 4.9: Why Lime Can't Be Defeated
 
- SECTION 5: Clearing Out Landmines
+* [SECTION 5: Clearing Out Landmines](#section-5-clearing-out-landmines)
  - SECTION 5.1: Hardware Trips
  - SECTION 5.2: Service Triggers
  - SECTION 5.3: Network & Misc Triggers
  - SECTION 5.4: Play Integrity
 
-
- SECTION 6: How to Root
+* [SECTION 6: How to Root](#section-6-how-to-root)
  - SECTION 6.1: Preparation
  - SECTION 6.2: Unlocking Bootloader
  - SECTION 6.3: Gaining Sudo
  - SECTION 6.4: Its So Sour!!
 
-  [SECTION 7: Future Proofing](#section-7-future-proofing)
+* [SECTION 7: Future Proofing](#section-7-future-proofing)
   
-  SECTION 8: The Hard Loop
+* [SECTION 8: The Hard Loop](#section-8-the-hard-loop)
  
-  SECTION 9: Lockedin’s physical solutions & Why they fail.
+* [SECTION 9: Lockedin’s physical solutions & Why they fail.](#section-9-lockedins-physical-solutions--why-they-fail)
 
-  SECTION 10: Credits
+* [SECTION 10: Credits](#section-10-credits)
+
 
 ================================================================================
 
-SECTION 1: The paradox.
+## SECTION 1: The paradox.
 
 I'm gonna be straight. lockedin will NEVER win against a rooted user. by all means. It's physically impossible for a standard app to win against a user with root access. it has NO chance of winning. same thing with its bypass detections. rooted users can neutralize them with pm disable com.xx or something. Even if lockedin goes MDM, root always wins. That's a statement and fact.
 
-SECTION 1.5: the illusion
+## SECTION 1.5: the illusion
 
 no matter how much lockedin tries to stop rooted users. they will never win. hardware attestation? We got trickystore, custom roms? we can literally edit buildprop properties with root (besides graphineos, they don't have root). lockedin may have 95% of the users under control. But there's always that small group of users finding ways. including reverse engineering. and lockedin CANT do anything because androids security and SELinux will backfire on them. they use androids own features against the user. but rooted users have total control. so they can turn android against lockedin.
 
-SECTION 2: THE DEFENSE.
+## SECTION 2: THE DEFENSE.
 
 This is gonna be a long one. but i will explain each and every flag and bypass detection. and i will explain how to bypass them
 
@@ -89,7 +86,7 @@ d1 Work profile detected
 
 we don't need to bypass all of these, we just need to bypass M0 and T0.
 
-SECTION 2.5: FALSE POSITIVES
+## SECTION 2.5: FALSE POSITIVES
 
 Now uhm SOME OF THESE FLAGS ARE JUST BULLSHIT. For example flag Z0, it flags battery saver as an "attempted bypass" and sends the data to the admin console marking the student "non compliant". Even worse, some phones automatically kick in battery saver when on low battery. and that will cause alot of issues. this isnt just android, ios has the same behavior, even more worse, modern iphones silently activate power saving so that will cause some pretty massive false alarms
 
@@ -97,7 +94,7 @@ same with flag c1, some phones might just not support a specific network, or may
 
 this is really some bull since you are essentially forced to unreasonably maintain your phone. or else you are "flagged as non compliant".
 
-SECTION 3: breaking through the layers
+## SECTION 3: breaking through the layers
 
 This is how I'm going to bypass these layers.
 
@@ -150,7 +147,7 @@ HARDWARE
 
 also as a side note. if you're not using emulators. then DONT edit the emulator files like ro.kernel.qemu, they are already at valid values.
 
-SECTION 4: THE SCRIPT FIGHTS BACK!
+## SECTION 4: THE SCRIPT FIGHTS BACK!
 
 ok. Here's how the script fights back against lockedin. and ill explain how it uses androids features and services against lockedin.
 
@@ -325,7 +322,7 @@ SECTION 4.9: why LIME cant be defeated.
 
 LIME cannot be defeated AT ALL. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it. The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script. including here. where it's protected by 3 layers of encryption.
 
-SECTION 5: CLEARING OUT LANDMINES
+## SECTION 5: CLEARING OUT LANDMINES
 
 so im going to explain all 19 flags in detail and how LIME bypasses each of them
 
@@ -457,7 +454,7 @@ STRONG_INTEGRITY: this is the highest tier, your phone has to have a security pa
 
 And lockedin is kind of forced to allow basic integrity to support older android phones. And EVEN if lockedin raises the bar to device integrity, they will be faced with 2 problems, 1. There would be a lot of false alarms, AND 2. There's a thing called Tricky Store which can successfully spoof device integrity.
 
-SECTION 6: HOW TO ROOT
+## SECTION 6: HOW TO ROOT
 
 In this section, I'm gonna explain how to ROOT YOUR ANDROID PHONE! this is one of the required steps to be able to use LIME :D
 
@@ -572,13 +569,13 @@ am broadcast -a android.intent.action.ACTION_SHUTDOWN -p com.lockedin.student
 
 These are all the patches I predict!
 
-SECTION 8: THE HARD LOOP
+## SECTION 8: THE HARD LOOP
 
 Well, no matter how much lockedin tries to patch, they can ALMOST NEVER get around LIME. rooted users will always win against software, it's an endless loop.
 
 This is the inevitable loop, lockedin has no way to win, they can try all they want, but they can never win. If lockedin tries to patch LIME. it would lead to a loop of asymmetric attrition. What that means is basically, lockedin will be LOCKED IN an inescapable loop. Here's what would happen if lockedin were to try to patch LIME. Scenario 1: it's bypassed easily, or Scenario 2: there will be a lot of false alarms. So Lockedin’s solution will be to move to the server side. But there's one catastrophic problem. The servers are fucking dumb. They can't tell whether someone's battery died, or if they have ass wifi, The server flags it as attempted bypasses anyway. And innocent students will be punished for something they can't control. So that will lead to Scenario 2 happening, which Deans and admins don't like. So lockedin will lose a lot of customers, so they will have to move back to the weaker, client side. In which Scenario 1 will happen. If lockedin were to try to break that loop. They would have to fundamentally break Android's security. And in which google will respond harshly by taking down the app off the play store if they try to cross androids boundaries. That's just the law of android. The same thing will happen to IOS. It's an endless loop. Now I don't even know how lockedin, or any school district did not foresee this in the first place.
 
-SECTION 9: Lockedins solutions, and WHY IT WONT WORK
+## SECTION 9: Lockedins solutions, and WHY IT WONT WORK
 
 Now in this section, I will list lockedins solutions, NOT patches. This is different from Section 7, which covers technical, client side patches. This section shows physical solutions and I will show their flaws and why it's a bad idea.
 
@@ -616,7 +613,7 @@ LIME is nearly unpatchable. That's my statement. If lockedin were to try to patc
 
 -zzcyann
 
-SECTION 10: CREDITS
+## SECTION 10: CREDITS
 
 Without these apps, companies, or services, this adventure wouldn't have been possible at all, but thanks to these tools, it is completely possible to bypass these apps! I love it when things are modifiable and open source :D
 
