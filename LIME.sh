@@ -3,10 +3,26 @@
 # THIS IS ONLY TESTED FOR ANDROID 14!
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/local/tmp/bypass_on"
+UID_CACHE="/data/local/tmp/.lime_uid.cache"
+LIME_TABLE="99"
 
 get_current_uid() {
     if [ -d "/data/data/$TARGET_PKG" ]; then
         stat -c '%u' "/data/data/$TARGET_PKG" 2>/dev/null
+    else
+        # a fallback
+        dumpsys package "$TARGET_PKG" | grep -m1 "userId=" | awk -F= '{print $2}' | tr -d '[:space:]' 2>/dev/null
+    fi
+}
+
+# UID CACHE
+cache_target_uid() {
+    CURRENT_UID=$(get_current_uid)
+    if [ -n "$CURRENT_UID" ]; then
+        echo "$CURRENT_UID" > "$UID_CACHE"
+        echo "$CURRENT_UID"
+    elif [ -f "$UID_CACHE" ]; then
+        cat "$UID_CACHE"
     fi
 }
 
@@ -17,7 +33,11 @@ get_current_uid() {
 # This ensures LIME always defaults to ON after a reboot
 rm -f "$TOGGLE_FILE" 2>/dev/null
 
-TARGET_UID=$(get_current_uid)
+# Secondary firewall defense
+ip route replace blackhole default table $LIME_TABLE 2>/dev/null
+ip -6 route replace blackhole default table $LIME_TABLE 2>/dev/null
+
+TARGET_UID=$(cache_target_uid)
 if [ -n "$TARGET_UID" ]; then
     iptables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I OUTPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
@@ -54,9 +74,15 @@ unified_watchdog() {
 
     if [ ! -f "$TOGGLE_FILE" ]; then
       # --- BYPASS IS ENABLED  ---
+
+      if [ -n "$TARGET_UID" ]; then
+          # Force all traffic from this UID exclusively through the blackhole routing table
+          ip rule del uidrange $TARGET_UID-$TARGET_UID table $LIME_TABLE 2>/dev/null
+          ip rule add uidrange $TARGET_UID-$TARGET_UID table $LIME_TABLE preference 1000 2>/dev/null
+      fi
       
       # 1. pm disable stuff
-      pm disable --user 0 \"\$TARGET_PKG/com.lockedin.student.MainActivity\" 2>/dev/null
+      pm disable --user 0 "$TARGET_PKG/com.lockedin.student.MainActivity" 2>/dev/null
       pm disable "$TARGET_PKG/.services.BlockAccessibilityService" 2>/dev/null
       pm disable "$TARGET_PKG/.services.BlockNotificationListener" 2>/dev/null
       pm disable "$TARGET_PKG/.services.DeadManSwitchReceiver" 2>/dev/null
@@ -93,7 +119,7 @@ unified_watchdog() {
         CURRENT_UID=$(get_current_uid)
 
         # 2. Temporarily thaw specific components
-        pm disable --user 0 \"\$TARGET_PKG/com.lockedin.student.MainActivity\" 2>/dev/null
+        pm enable --user 0 "$TARGET_PKG/com.lockedin.student.MainActivity" 2>/dev/null
         pm enable "$TARGET_PKG/.services.BootReceiver" 2>/dev/null
         pm enable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
         pm enable "$TARGET_PKG/androidx.work.impl.background.systemalarm.SystemAlarmService" 2>/dev/null
@@ -114,6 +140,12 @@ unified_watchdog() {
             
             # Force a cold-start
             am force-stop "$TARGET_PKG" 2>/dev/null
+        fi
+
+        # 4. secondary firewall off switch included
+        if [ -n "$TARGET_UID" ]; then
+            ip rule del uidrange $TARGET_UID-$TARGET_UID table $LIME_TABLE 2>/dev/null
+            # NOTE: iptables/ip6tables lines remain un-cleared to run 24/7
         fi
 
         # 4. Open UI interactions
