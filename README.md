@@ -68,24 +68,24 @@ no matter how much lockedin tries to stop rooted users. they will never win. har
 
 This is gonna be a long one. but i will explain each and every flag and bypass detection. and i will explain how to bypass them
 
-M0 Root detected
-N0 Emulator detected
-O0 Tampered APK
-P0 App cloning detected
-Q0 Hooking framework detected
-R0 Sideloaded app
-S0 Mock location capable apps
-T0 Bootloader Unlock detected
-U0 SELinux permissive
-V0 USB debugging enabled
-W0 User-installed CA certificates (MITM possible)
-X0 Third-party device admin apps
-Y0 factory reset detected
-Z0 Battery saver detected
-a1 Suspicious location providers
-b1 Heads-up notifications disabled
-c1 No SIM card
-d1 Work profile detected
+- M0 Root detected
+- N0 Emulator detected
+- O0 Tampered APK
+- P0 App cloning detected
+- Q0 Hooking framework detected
+- R0 Sideloaded app
+- S0 Mock location capable apps
+- T0 Bootloader Unlock detected
+- U0 SELinux permissive
+- V0 USB debugging enabled
+- W0 User-installed CA certificates (MITM possible)
+- X0 Third-party device admin apps
+- Y0 factory reset detected
+- Z0 Battery saver detected
+- a1 Suspicious location providers
+- b1 Heads-up notifications disabled
+- c1 No SIM card
+- d1 Work profile detected
 
 we don't need to bypass all of these, we just need to bypass M0 and T0.
 
