@@ -13,7 +13,7 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 
 [INSTALL GUIDE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/install-guide.md)
 
-<video src="assets/videos/Video-Demonstration.mp4" controls width="100%"></video>
+<video src="Video-Demonstration.mp4" controls width="100%"></video>
 
 
 # PROJECT BREAKOUT \ LIME || SECTION LIST
