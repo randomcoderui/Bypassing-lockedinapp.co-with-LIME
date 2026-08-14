@@ -1,6 +1,6 @@
-## CODE SNIPPETS
+## MORE DETAILED SECURITY FLAGS FROM LOCKEDIN
 
-these are code snippets from SecurityService.smali, the .smali file contains every single defense lockedin uses.
+these are code snippets from SecurityService.smali, the .smali file contains every single defense lockedin uses. theres around 38 different security checks being performed inside the app. so im going to expose every single flag.
 
 The bypass checks begin at around line ~1100.
 
