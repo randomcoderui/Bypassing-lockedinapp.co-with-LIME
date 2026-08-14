@@ -95,7 +95,7 @@ This is gonna be a long one. but i will explain each and every flag and bypass d
 
 we don't need to bypass all of these, we just need to bypass M0 and T0.
 
-FOR MORE DETAILED LOOK AT THESE SECURITY FLAGS, GO HERE
+# FOR MORE DETAILED LOOK AT THESE SECURITY FLAGS, GO HERE
 
 [more detailed security flags](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/more-defailed-security-flags.md)
 
