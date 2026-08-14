@@ -95,6 +95,10 @@ This is gonna be a long one. but i will explain each and every flag and bypass d
 
 we don't need to bypass all of these, we just need to bypass M0 and T0.
 
+FOR MORE DETAILED LOOK AT THESE SECURITY FLAGS, GO HERE
+
+[more detailed security flags](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/more-defailed-security-flags.md)
+
 ## SECTION 2.5: FALSE POSITIVES
 
 Now uhm SOME OF THESE FLAGS ARE JUST BULLSHIT. For example flag Z0, it flags battery saver as an "attempted bypass" and sends the data to the admin console marking the student "non compliant". Even worse, some phones automatically kick in battery saver when on low battery. and that will cause alot of issues. this isnt just android, ios has the same behavior, even more worse, modern iphones silently activate power saving so that will cause some pretty massive false alarms
