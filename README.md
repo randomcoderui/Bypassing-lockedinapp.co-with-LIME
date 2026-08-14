@@ -10,6 +10,8 @@ Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakou
 [INSTALL GUIDE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/install-guide.md)
 
 [VIDEO DEMONSTRATION](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/Video-Demonstration.mp4)
+<video src="assets/videos/Video-Demonstration.mp4" controls width="100%"></video>
+
 # PROJECT BREAKOUT \ LIME || SECTION LIST
 
 * [SECTION 1: The Paradox](#section-1-the-paradox)
