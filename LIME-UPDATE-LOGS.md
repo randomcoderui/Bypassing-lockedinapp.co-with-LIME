@@ -1,6 +1,4 @@
-Well I, zzcyann have been working on LIME since early June. The first ever version of LIME was way different than you think it was currently. I will keep updating this document as time goes on, even IF AIMS dosent adopt lockedin, i will keep updating this. Anyways ill explain what LIME is right now.
-
-
+Well I, zzcyann have been working on LIME since early June. The first ever version of LIME was way different than you think it was currently. I will keep updating this document as time goes on, even if this project goes nowhere, ill still update LIME
 
 
 
@@ -54,3 +52,19 @@ This removes pkill because it only kills the main app, not its background servic
 VERSION 3.6
 
 This reinforces LIME by utilizing Workmanager so it dosent automatically reboot lockedin.
+
+VERSION 3.7 
+
+this update fixed some bugs
+
+VERSION 4.0
+
+this version added pm disable com.lockedin.student/MainActivtiy or smth like that, this was added after i found out that without main activity, the SecurityService couldnt start, and i fixed some other bugs too
+
+VERSION 4.1 (later reverted)
+
+this buffed the firewall, however i accidently made it cut off internet to my entire phone, so i reverted it.
+
+Version 4.5
+
+Added pm suspend with the already existing pm hide, added nproc limits so even if lockedin somehow is alive, the kernel nukes the app. this makes it so lockedin is double locked in (pun)
