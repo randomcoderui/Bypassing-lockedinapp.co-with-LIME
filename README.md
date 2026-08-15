@@ -20,6 +20,12 @@ this project isnt only ment to bypass lockedin, but expose every hidden security
 - > Improve this shitty documentation (half way there)
 - > maybe make LIME supported on IOS?
 
+# LIMES POTENTIAL FUTURE IMPROVEMENTS
+
+- > prevent lockedin from receiving the boot_completed message from android
+- > add redundency to prevent lockedin from rebooting
+- > buff the firewall WITHOUT nuking the phones internet capabilites
+
 - # NOTE THAT CURRENTLY, LIME HAS ONLY BEEN TESTED ON ANDROID 14, THERES UNCONFIRMED SUPPORT FOR OTHER ANDROID VERSIONS
 - # ALSO LIME IS COMPLETELY UNSUPPORTED ON IOS
 
