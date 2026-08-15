@@ -7,7 +7,17 @@ BY zzcyann
 
 Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakout? Well the end goal of this project is to reverse engineer LockedIn, and find its weaknesses, and ultimately, bypass the app without detection. Now this document also mentions LIME, LIME stands for Locked In Mirage Exterminator. LIME is a root level script that neutralizes Lockedin while bypassing its defenses. It's currently Android only but jailbreak iphones might work in the future. LIME is fully invisible since it uses a firewall that modifies the linux kernel’s network stack. And it uses low level Android Framework commands to neutralize lockedin, and its components can also be disabled with PM (Package Manager). And to prevent lockedin from somehow rebooting, LIME hijacks Workmanager and PM so Android can't even see lockedin. Now lockedin can't patch LIME due to numerous reasons. Read Section 8 for more detail. I've started this project because I really don't like it when we have to install school mandated apps on our OWN hardware. If the school gave us school phones like school chromebooks, then i wouldn't complain really, but this is MY phone and my hardware. So obviously I'm going to bypass it :/.
 
+
+# Purpose of this project. and lockedin's weaknesses
+this project isnt only ment to bypass lockedin, but expose every hidden security flag and expose everything inside the decompiled apk. and ultimately, make it so impossible to patch LIME that they break one of their rules. well actually, let me state their rules. 1, they cant have false alarms, if schools get false alarms, its going to defeat the credability of lockedin. 2, they cant make their app escalate privilages, if they do that, then they would have to behave as a rootkit malware, which google will immediately smite the app off the play store. now if they try to move server side, well theres one flaw, servers are dumb, they cant tell if a phone died, lost wifi, or a bypass is used. the server will most likely flag it as a bypass, which would break rule 1. and also, we can easily fake a shutdown by broadcasting a shutdown message, as long as we are rooted, we can do almost anything. and obviously lockedin is bound by android's security and SELinux policies. and breaking that security model will result in google absolutely smiting the app off the google play store. they are fundementally trapped. anyways ive explained the 2 rules. theres only so much patches and updates they can do before they run out. and as ive said, this project isnt aimed to JUST bypass lockedin, but expose every single flaw in this app. and if lockedin tries to fight back, i have a list of anti-patches ready to go. good. luck.
+
 [INSTALL GUIDE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/install-guide.md)
+
+# TODO LIST
+> buff LIME alot more
+> Improve this shitty documentation
+> maybe make LIME supported on IOS?
+
 
 
 # VIDEO DEMONSTRATION
