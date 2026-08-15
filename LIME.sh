@@ -1,6 +1,7 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
 # THIS IS ONLY TESTED FOR ANDROID 14!
+# LIME v4.8
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/local/tmp/bypass_on"
 UID_CACHE="/data/local/tmp/.lime_uid.cache"
