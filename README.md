@@ -14,9 +14,9 @@ this project isnt only ment to bypass lockedin, but expose every hidden security
 [INSTALL GUIDE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/install-guide.md)
 
 # TODO LIST
-> buff LIME alot more
-> Improve this shitty documentation
-> maybe make LIME supported on IOS?
+- > buff LIME alot more
+- > Improve this shitty documentation
+- > maybe make LIME supported on IOS?
 
 
 
