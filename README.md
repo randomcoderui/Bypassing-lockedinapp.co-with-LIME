@@ -75,17 +75,27 @@ https://github.com/user-attachments/assets/8f82d18d-8585-4f4b-848d-7b624ce17acb
 
 ================================================================================
 
-## SECTION 1: The paradox.
+## SECTION 1: Introduction.
 
-I'm gonna be straight. lockedin will NEVER win against a rooted user. by all means. It's physically impossible for a standard app to win against a user with root access. it has NO chance of winning. same thing with its bypass detections. rooted users can neutralize them with pm disable com.xx or something. Even if lockedin goes MDM, root always wins. That's a statement and fact.
+So what is Lockedin? Lockedin is an app made by 2 people, Brian Ohebshalom and Noah Fakheri. they launched the app in march 2026, now i didnt know about the app until someone (who is anonymous) at my school leaked it to me. anyways lockedin claims to catch "every common bypass". Now on the surface, they say the app is tamper-proof, but in the TOS, it says that not all bypasses can be caught, and that is when Project Breakout comes in, this isnt JUST a security research, no. my goal for this project is to exploit every single hole and weaponize them. and with that, i introduce LIME, which stands for Locked In Mirage Exterminator. LIME isnt a simple one shot script, i mean the commands arent advanced, but the structure is really great, LIME reiles on stacking defenses so if lockedin were to break out of one defense, theres 4 more. Heres a list of what LIME includes,
+
+- > PM disable (including the sub components like the deadmanswitch)
+- > AM force-stop, this is a low level android command that cant be overriden by normal apps
+- > Built in Firewall, this uses ip tables to DROP all packets
+- > prlimit rules, it makes it so lockedin is limited to 0mb of ram and 0% of cpu, and that will lead to the underlying linux kernel insta killing the app
+- > Workmanager manipulation, this actually dosent really "manipulate" workmanager but it makes it so Workmanager will refuse to restart lockedin
+- > PM suspend and PM hide, this reinforces LIME by making android ignore lockedin and refuse to execute its code
+- > AppOp's manipulation, this makes it so lockedin can never get permission to use accessibility by normal means.
+
+As you see, theres a shit TON of defenses and layers LIME uses. and later (in around section 8 or so) i will explain why lockedin cant do EVERY patch.
 
 ## SECTION 1.5: the illusion
 
-no matter how much lockedin tries to stop rooted users. they will never win. hardware attestation? We got trickystore, custom roms? we can literally edit buildprop properties with root (besides graphineos, they don't have root). lockedin may have 95% of the users under control. But there's always that small group of users finding ways. including reverse engineering. and lockedin CANT do anything because androids security and SELinux will backfire on them. they use androids own features against the user. but rooted users have total control. so they can turn android against lockedin.
+no matter how much lockedin tries to stop rooted users. they will have an extremely hard time to win. hardware attestation? We got trickystore, custom roms? we can literally edit buildprop properties with root (besides graphineos, they don't have root). lockedin may have 95% of the users under control. But there's always that small group of users finding ways. including reverse engineering. and lockedin is limited by what they can do because androids security and SELinux will backfire on them. they use androids own features against the user. but rooted users have nearly total control. so they can turn android against lockedin.
 
 ## SECTION 2: THE DEFENSE.
 
-This is gonna be a long one. but i will explain each and every flag and bypass detection. and i will explain how to bypass them
+This is gonna be a long one. but i will explain each and every flag and bypass detection. and i will explain how to bypass them, this only includes the important flags, theres a more detailed version if you are interested
 
 - M0 Root detected
 - N0 Emulator detected
@@ -330,6 +340,8 @@ idk why the hell they did this, i mean im not an expert at android coding but cm
 
 we can change student grade level, name, we can inject geofence coords, and other stuff. This is mainly to pass manual inspection! however this only works for about 3-15 seconds before lockedin is able to fully respond and overwrite the data.
 
+Also note that this exploit sounds cool, its useless for LIME because LIME already completely nukes lockedin so theres no point, i added this because it was funny lol
+
 ## SECTION 4.8: LIME-MAINTAINER
 
 well obviously i have to keep track incase a part of the script fails, so i made it so it has 4 codes
@@ -346,11 +358,11 @@ the maintainer script checks for the process killer, the script toggle, the fire
 
 ## SECTION 4.9: why LIME cant be defeated.
 
-LIME cannot be defeated AT ALL. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it. The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script. including here. where it's protected by 3 layers of encryption.
+LIME can almost never be completely defeatd. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it (modern magisk puts su in /debug_ramdisk). The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script.
 
 ## SECTION 5: CLEARING OUT LANDMINES
 
-so im going to explain all 19 flags in detail and how LIME bypasses each of them
+so im going to explain all 19 flags (theres more flags so scroll up to find them) in detail and how LIME bypasses each of them, this only covers the main flags.
 
 ## SECTION 5.1: HARDWARE TRIPS
 
@@ -597,9 +609,9 @@ These are all the patches I predict!
 
 ## SECTION 8: THE HARD LOOP
 
-Well, no matter how much lockedin tries to patch, they can ALMOST NEVER get around LIME. rooted users will always win against software, it's an endless loop.
+Well, now i will explain the hard truth, and why lockedin is bound to 2 rules, now lockedin could patch LIME but it would require an immense amount of time and work, which a startup most likely dosent have.
 
-This is the inevitable loop, lockedin has no way to win, they can try all they want, but they can never win. If lockedin tries to patch LIME. it would lead to a loop of asymmetric attrition. What that means is basically, lockedin will be LOCKED IN an inescapable loop. Here's what would happen if lockedin were to try to patch LIME. Scenario 1: it's bypassed easily, or Scenario 2: there will be a lot of false alarms. So Lockedin’s solution will be to move to the server side. But there's one catastrophic problem. The servers are fucking dumb. They can't tell whether someone's battery died, or if they have ass wifi, The server flags it as attempted bypasses anyway. And innocent students will be punished for something they can't control. So that will lead to Scenario 2 happening, which Deans and admins don't like. So lockedin will lose a lot of customers, so they will have to move back to the weaker, client side. In which Scenario 1 will happen. If lockedin were to try to break that loop. They would have to fundamentally break Android's security. And in which google will respond harshly by taking down the app off the play store if they try to cross androids boundaries. That's just the law of android. The same thing will happen to IOS. It's an endless loop. Now I don't even know how lockedin, or any school district did not foresee this in the first place.
+This is the inevitable loop, lockedin has almost no way to win, they can try all they want, but they can almost never win. If lockedin tries to patch LIME. it would lead to a loop of asymmetric attrition. What that means is basically, lockedin will be LOCKED IN (pun) an inescapable loop. Here's what would happen if lockedin were to try to patch LIME. Scenario 1: it's bypassed easily, or Scenario 2: there will be a lot of false alarms. So Lockedin’s solution will be to move to the server side. But there's one catastrophic problem. The servers are fucking dumb. They can't tell whether someone's battery died, or if they have ass wifi, The server flags it as attempted bypasses anyway. And innocent students will be punished for something they can't control. So that will lead to Scenario 2 happening, which Deans and admins don't like. So lockedin will lose a lot of customers, so they will have to move back to the weaker, client side. In which Scenario 1 will happen. If lockedin were to try to break that loop. They would have to fundamentally break Android's security. And in which google will respond harshly by taking down the app off the play store if they try to cross androids boundaries. That's just the law of android. The same thing will happen to IOS. It's an endless loop. Now I don't even know how lockedin, or any school district did not foresee this in the first place.
 
 ## SECTION 9: Lockedins solutions, and WHY IT WONT WORK
 
