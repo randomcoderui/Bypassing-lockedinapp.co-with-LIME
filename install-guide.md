@@ -21,4 +21,4 @@ now the script automatically starts up on boot, the toggle file is located in /d
 
 3. if you want to disable LIME, do rm /data/local/tmp/bypass_on, and if you want to enable LIME, do touch /data/local/tmp/bypass_on
 
-note: btw lockedin will try to see if /data/adb exists. and if it gets a permission denied, lockedin will flag that since normal androids will just tell lockedin that the path dosent exist (ENOENT). so to fix that, go in the magisk app, then go into the settings in magisk. then turn on denylist, and select lockedin and put it in the denylist. this will essentially replicate a ENOENT error.
+note: btw lockedin will try to see if /data/adb exists. and if it gets a permission denied, lockedin will flag that since normal androids will just tell lockedin that the path dosent exist (ENOENT). so to fix that, go in the magisk app, then go into the settings in magisk. then turn on denylist, and select lockedin and put it in the denylist. this wont prevent lockedin from detection /data/adb but it reduces the risk
