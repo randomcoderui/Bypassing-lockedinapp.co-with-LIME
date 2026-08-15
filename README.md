@@ -13,6 +13,8 @@ this project isnt only ment to bypass lockedin, but expose every hidden security
 
 [INSTALL GUIDE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/install-guide.md)
 
+[VIDEO EVIDENCE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/Evidence.md)
+
 # TODO LIST
 - > buff LIME alot more
 - > Improve this shitty documentation
