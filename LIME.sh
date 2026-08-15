@@ -1,7 +1,6 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v4.6
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/local/tmp/bypass_on"
 UID_CACHE="/data/local/tmp/.lime_uid.cache"
@@ -84,9 +83,14 @@ unified_watchdog() {
       pm disable "$TARGET_PKG/$TARGET_PKG.services.PermissionCheckWorker" 2>/dev/null
       pm disable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
       
-      # 3. nuke
+      # 3. nuke (Clear open file handles first)
       am force-stop "$TARGET_PKG" 2>/dev/null
-      pkill -9 -f "$TARGET_PKG" 2>/dev/null # Keep active here to terminate background components cleanly [1.1]
+      pkill -9 -f "$TARGET_PKG" 2>/dev/null
+
+      # Inject SELinux Context Hardening while the directory path is completely visible
+      if [ -d "/data/data/$TARGET_PKG" ]; then
+          chcon -R u:object_r:isolated_app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null # RE-ALIGNED: Executes before hiding
+      fi
       
       # 4. pm hide
       pm hide "$TARGET_PKG" 2>/dev/null
@@ -104,13 +108,9 @@ unified_watchdog() {
         cmd appops set $TARGET_PKG BIND_ACCESSIBILITY_SERVICE ignore 2>/dev/null
         cmd appops set $TARGET_PKG SYSTEM_ALERT_WINDOW ignore 2>/dev/null
         
-        # Lock file system immutability over the preference cache, oh and also add chcon
+        # Lock file system immutability over the preference cache
         if [ -f "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" ]; then
             chattr +i "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" 2>/dev/null
-        fi
-
-        if [ -d "/data/data/$TARGET_PKG" ]; then
-            chcon -R u:object_r:isolated_app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null
         fi
         WAS_DISABLED=1
       fi
@@ -118,11 +118,13 @@ unified_watchdog() {
       # --- BYPASS IS DISABLED partially i guess ---
       if [ "$WAS_DISABLED" -ne 0 ]; then
         
+        # Reset the original SELinux security context label before restoring package manager references
         if [ -d "/data/data/$TARGET_PKG" ]; then
             chcon -R u:object_r:app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null
             restorecon -R "/data/data/$TARGET_PKG" 2>/dev/null
         fi
 
+        # Remove structural write blocks before preferences update
         if [ -f "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" ]; then
             chattr -i "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" 2>/dev/null
         fi
@@ -151,8 +153,8 @@ unified_watchdog() {
             prlimit --pid "$TARGET_PID" --nproc=unlimited --nofile=unlimited --cpu=unlimited 2>/dev/null
         fi
 
-        # Force a cold-start to read preferences natively without extra nuke scripts
-        am force-stop "$TARGET_PKG" 2>/dev/null # FIXED: i was originally gonna add pkill -9 but i realized that it would insta kill the app again lol
+        # Force a clean framework cold start (pkill removed to avoid crash during launch check)
+        am force-stop "$TARGET_PKG" 2>/dev/null
 
         # 4. Open UI interactions
         cmd appops set $TARGET_PKG RUN_IN_BACKGROUND allow 2>/dev/null
