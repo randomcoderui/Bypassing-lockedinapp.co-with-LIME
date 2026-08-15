@@ -16,8 +16,8 @@ this project isnt only ment to bypass lockedin, but expose every hidden security
 [VIDEO EVIDENCE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/Evidence.md)
 
 # TODO LIST
-- > buff LIME alot more
-- > Improve this shitty documentation
+- > buff LIME alot more (almost done)
+- > Improve this shitty documentation (half way there)
 - > maybe make LIME supported on IOS?
 
 - # NOTE THAT CURRENTLY, LIME HAS ONLY BEEN TESTED ON ANDROID 14, THERES UNCONFIRMED SUPPORT FOR OTHER ANDROID VERSIONS
