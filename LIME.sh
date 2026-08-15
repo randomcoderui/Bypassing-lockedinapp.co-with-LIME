@@ -1,6 +1,7 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
 # THIS IS ONLY TESTED FOR ANDROID 14!
+# LIME v4.6
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/local/tmp/bypass_on"
 UID_CACHE="/data/local/tmp/.lime_uid.cache"
@@ -85,6 +86,7 @@ unified_watchdog() {
       
       # 3. nuke
       am force-stop "$TARGET_PKG" 2>/dev/null
+      pkill -9 -f "$TARGET_PKG" 2>/dev/null # Keep active here to terminate background components cleanly [1.1]
       
       # 4. pm hide
       pm hide "$TARGET_PKG" 2>/dev/null
@@ -102,9 +104,13 @@ unified_watchdog() {
         cmd appops set $TARGET_PKG BIND_ACCESSIBILITY_SERVICE ignore 2>/dev/null
         cmd appops set $TARGET_PKG SYSTEM_ALERT_WINDOW ignore 2>/dev/null
         
-        # Enforce write protection over baseline state configurations
+        # Lock file system immutability over the preference cache, oh and also add chcon
         if [ -f "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" ]; then
             chattr +i "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" 2>/dev/null
+        fi
+
+        if [ -d "/data/data/$TARGET_PKG" ]; then
+            chcon -R u:object_r:isolated_app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null
         fi
         WAS_DISABLED=1
       fi
@@ -112,7 +118,11 @@ unified_watchdog() {
       # --- BYPASS IS DISABLED partially i guess ---
       if [ "$WAS_DISABLED" -ne 0 ]; then
         
-        # Remove structural write blocks before preferences update
+        if [ -d "/data/data/$TARGET_PKG" ]; then
+            chcon -R u:object_r:app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null
+            restorecon -R "/data/data/$TARGET_PKG" 2>/dev/null
+        fi
+
         if [ -f "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" ]; then
             chattr -i "/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml" 2>/dev/null
         fi
@@ -135,25 +145,14 @@ unified_watchdog() {
         
         # 3. clear cache
         rm -f "/data/data/$TARGET_PKG/shared_prefs/dead_man_switch_prefs.xml" 2>/dev/null
-        rm -rf "/data/data/$TARGET_PKG/databases"/* 2>/dev/null
-        rm -rf "/data/data/$TARGET_PKG/cache"/* 2>/dev/null
         
-        # Inject standard baseline preferences
-        PREFS_FILE="/data/data/$TARGET_PKG/shared_prefs/LocationCheckResponse.xml"
-        if [ -d "/data/data/$TARGET_PKG/shared_prefs" ]; then
-            echo '<?xml version="1.0" encoding="utf-8"?><map><string name="status">no_lockin_needed</string><boolean name="shouldLockIn" value="false" /><boolean name="isOnCampus" value="false" /></map>' > "$PREFS_FILE" 2>/dev/null
-            chmod 660 "$PREFS_FILE" 2>/dev/null
-            chown "$CURRENT_UID:$CURRENT_UID" "$PREFS_FILE" 2>/dev/null
-            
-            # Explicitly clear any inherited limits on the target process path before the cold-start execution
-            TARGET_PID=$(pidof "$TARGET_PKG")
-            if [ -n "$TARGET_PID" ]; then
-                prlimit --pid "$TARGET_PID" --nproc=unlimited --nofile=unlimited --cpu=unlimited 2>/dev/null
-            fi
-
-            # Force a cold-start
-            am force-stop "$TARGET_PKG" 2>/dev/null
+        TARGET_PID=$(pidof "$TARGET_PKG")
+        if [ -n "$TARGET_PID" ]; then
+            prlimit --pid "$TARGET_PID" --nproc=unlimited --nofile=unlimited --cpu=unlimited 2>/dev/null
         fi
+
+        # Force a cold-start to read preferences natively without extra nuke scripts
+        am force-stop "$TARGET_PKG" 2>/dev/null # FIXED: i was originally gonna add pkill -9 but i realized that it would insta kill the app again lol
 
         # 4. Open UI interactions
         cmd appops set $TARGET_PKG RUN_IN_BACKGROUND allow 2>/dev/null
