@@ -90,4 +90,4 @@ Buffed firewall (prevents lockedin from using lo or 127.0.0.1 to bypass the curr
 
 Version 5.xx
 
-ok its almost 11pm and i NEED SLEEP so tomorrow, im going to focus on buffing the firewall and polishing LIME's watchdog. then i might pivot to preventing lockedin from detecting root.
+ok its almost 11pm and i NEED SLEEP so tomorrow, im going to focus on buffing the firewall by restricting lockedin from accessing port 53 and maybe more (both UDP and TCP) and polishing LIME's watchdog. then i might pivot to preventing lockedin from detecting root.
