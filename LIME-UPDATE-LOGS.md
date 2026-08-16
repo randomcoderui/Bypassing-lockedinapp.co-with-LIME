@@ -68,3 +68,21 @@ this buffed the firewall, however i accidently made it cut off internet to my en
 Version 4.5
 
 Added pm suspend with the already existing pm hide, added nproc limits so even if lockedin somehow is alive, the kernel nukes the app. this makes it so lockedin is double locked in (pun)
+
+
+Version 4.6
+
+minor bug fixes and stability
+
+Version 4.7
+
+Added chcon commands
+
+Version 4.8
+
+tweaked LIME because chcon didnt work in v4.7
+
+
+Version 5.0
+
+Buffed firewall (prevents lockedin from using lo or 127.0.0.1 to bypass the current firewall along with other buffs like -j REJECT --reject-with icmp-admin-prohibited)
