@@ -5,6 +5,8 @@ BY zzcyann
 
 —----------------------------------------------------------------------------------------------------------------------------
 
+## UPDATE: DUE TO SEVERE STABILITY ISSUES, LIME WILL BE HALTED AT V5
+
 Hello, my name is zzcyann, This is Project Breakout. Now what is Project Breakout? Well the end goal of this project is to reverse engineer LockedIn (this is their site: https://www.lockedinapp.co/), and find its weaknesses, and ultimately, bypass the app without detection. Now this document also mentions LIME, LIME stands for Locked In Mirage Exterminator. LIME is a root level script that neutralizes Lockedin while bypassing its defenses. It's currently Android only but jailbreak iphones might work in the future. LIME is fully invisible since it uses a firewall that modifies the linux kernel’s network stack. And it uses low level Android Framework commands to neutralize lockedin, and its components can also be disabled with PM (Package Manager). And to prevent lockedin from somehow rebooting, LIME hijacks Workmanager and PM so Android can't even see lockedin. Now lockedin can't patch LIME due to numerous reasons. Read Section 8 for more detail. I've started this project because I really don't like it when we have to install school mandated apps on our OWN hardware. If the school gave us school phones like school chromebooks, then i wouldn't complain really, but this is MY phone and my hardware. So obviously I'm going to bypass it :/.
 
 
