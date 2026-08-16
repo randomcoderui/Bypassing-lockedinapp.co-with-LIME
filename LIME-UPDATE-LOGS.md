@@ -76,7 +76,7 @@ minor bug fixes and stability
 
 Version 4.7
 
-Added chcon commands
+Added chcon commands and pkill is back!
 
 Version 4.8
 
