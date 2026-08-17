@@ -75,8 +75,9 @@ https://github.com/user-attachments/assets/8f82d18d-8585-4f4b-848d-7b624ce17acb
   * [SECTION 6.1: Preparation](#section-61-preparation)
   * [SECTION 6.2: Unlocking Bootloader](#section-62-unlocking-bootloader)
   * [SECTION 6.3: Gaining Sudo](#section-63-gaining-sudo)
-  * [SECTION 6.4: Its So Sour!!](#section-64-its-so-sour)
-
+  * [SECTION 6.4: Apatch](#section-64-apatch)
+  * [SECTION 6.5: Its So Sour!!](#section-65-its-so-sour)
+  
 * [SECTION 7: Future Proofing](#section-7-future-proofing)
   
 * [SECTION 8: The Hard Loop](#section-8-the-hard-loop)
@@ -562,7 +563,34 @@ PS: you have to re-enable dev mode and enable usb debug because of the factory r
 
 Now you did the hard part hooray :> now root won't stop lockedinapp, but it makes neutralizing it wayy easier. Now on to the final phase hehehe..
 
-## SECTION 6.4: IT'S SO SOUR!
+## SECTION 6.4: APATCH
+
+now if you dont want to use magisk, you CAN use apatch, but if you want LIME's full effectiveness, you need a module to auto start LIME due to how apatch handles service.d scripts. also this will be a guide on how to use apatch.
+
+## THIS IS ASSUMING THAT YOUR BOOTLOADER IS UNLOCKED, YOU HAVE ADB SETUP, AND YOU HAVE A CLEAN BOOT IMAGE!
+
+## WARNING: INSTALLING APATCH REQUIRES A COMPATIABLE KERNEL!! IF YOU INSTALL APATCH WITH AN INCOMPATIABLE KERNEL, YOUR DEVICE WILL BOOTLOOP!! FOLLOW AT YOUR OWN RISK. IM NOT RESPONSIBLE FOR ANY DAMAGES.
+read the warning pls
+
+THIS IS IMPORTANT. DO NOT SKIP, 1. connect your phone to your pc, then execute "adb shell" then execute these 2 commands "zcat /proc/config.gz | grep CONFIG_KALLSYMS" and "uname -r"
+
+## IF zcat /proc/config.gz | grep CONFIG_KALLSYMS RETURNS: NOT SET, THEN APATCH IS NOT SUPPORTED WITH YOUR DEVICE. AND IT IS STRONGLY RECOMMENDED TO USE MAGISK
+
+## IF uname -r RETURNS ANYTHING ELSE OTHER THAN BETWEEN 3.18 AND 6.1, APATCH IS NOT SUPPORTED WITH YOUR DEVICE. AND IT IS STRONGLY RECOMMENDED TO USE MAGISK
+
+2. download the apatch apk https://github.com/bmax121/APatch/releases
+
+3. once apatch is installed, open apatch and click the rectangle with the down arrow on the top right, then select your original boot image
+
+4. transfer the patched boot image to your pc, then enter fastboot by holding power + vol up (it might be different for you), then click recovery, then use the power button, vol up, and vol down to navigate, then click reboot into bootloader
+
+5. once you enter fastboot, execute this: fastboot boot [your patched boot image.img]
+
+6. if the boot image works, then flash the boot image by executing fastboot flash boot [your patched boot image.img]
+
+Now you are rooted! yay  
+
+## SECTION 6.5: IT'S SO SOUR!
 
 congrats! Now you are rooted! but there's still some things you need to do!
 
