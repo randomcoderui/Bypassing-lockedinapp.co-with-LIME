@@ -91,3 +91,8 @@ Buffed firewall (prevents lockedin from using lo or 127.0.0.1 to bypass the curr
 Version 5.xx
 
 ok its almost 11pm and i NEED SLEEP so tomorrow, im going to focus on buffing the firewall by restricting lockedin from accessing port 53 and maybe more (both UDP and TCP) and polishing LIME's watchdog. then i might pivot to preventing lockedin from detecting root.
+
+
+Version 5.1
+
+fixes some bugs in LIME including syntax errors so LIME can work under apatch! oh and i will also make a custom module for apatch so LIME starts automatically because apatch handles boot scripts slightly differently than magisk
