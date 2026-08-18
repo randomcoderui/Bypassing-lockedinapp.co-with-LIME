@@ -164,7 +164,7 @@ unified_watchdog() {
         pm enable "$TARGET_PKG/androidx.work.impl.background.systemalarm.SystemAlarmService" 2>/dev/null
         pm enable "$TARGET_PKG/$TARGET_PKG.services.PermissionCheckWorker" 2>/dev/null
         pm enable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
-        pm enaable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
+        pm enable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
         
         # 3. clear cache
         rm -f "/data/data/$TARGET_PKG/shared_prefs/dead_man_switch_prefs.xml" 2>/dev/null
