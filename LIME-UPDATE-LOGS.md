@@ -95,4 +95,4 @@ ok its almost 11pm and i NEED SLEEP so tomorrow, im going to focus on buffing th
 
 Version 5.1
 
-fixes some bugs in LIME including syntax errors so LIME can work under apatch! oh and i will also make a custom module for apatch so LIME starts automatically because apatch handles boot scripts slightly differently than magisk
+fixes some bugs in LIME including syntax errors so LIME can function under apatch! however in my testing, LIME wouldnt start automatically, so i made a dedicated APModule so LIME can be booted in 
