@@ -1,14 +1,14 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v5.1
+# LIME v5.2
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/system/users/0/.lime_state.dat"
 UID_CACHE="/data/local/tmp/.lime_uid.cache"
 
 get_current_uid() {
-    if [ -d "/data/data/$TARGET_PKG" ]; then
-        stat -c '%u' "/data/data/$TARGET_PKG" 2>/dev/null
+    if [ -d "/data/user_de/0/$TARGET_PKG" ]; then
+        stat -c '%u' "/data/user_de/0/$TARGET_PKG" 2>/dev/null
     else
         # a fallback
         dumpsys package "$TARGET_PKG" | grep -m1 "userId=" | awk -F= '{print $2}' | tr -d '[:space:]' 2>/dev/null
