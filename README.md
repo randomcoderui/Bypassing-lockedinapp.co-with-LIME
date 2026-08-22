@@ -23,6 +23,8 @@ now project breakout and LIME are being updated continously, i spend like 2-3 ho
 
 [VIDEO EVIDENCE](https://github.com/randomcoderui/Project-Breakout-LIME/blob/main/Evidence.md)
 
+[YOUTUBE VIDEO](https://www.youtube.com/watch?v=m5z0b64qBy4)
+
 # TODO LIST
 - > buff LIME alot more (almost done)
 - > Improve this shitty documentation (half way there)
