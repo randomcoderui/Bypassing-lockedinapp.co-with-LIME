@@ -105,3 +105,11 @@ fixed a pretty major bug in the firewall
 Version 5.3
 
 tightened the timings so lockedin cant escape LIME as easily
+
+Version 5.4
+
+re added a safe version of the blackhole firewall
+
+Version 5.5
+
+Improved UID cache mechanism, and now LIME accepts manual UID configuration
