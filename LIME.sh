@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # LIME SCRIPT I GUESS
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v5.2
+# LIME v5.3
 TARGET_PKG="com.lockedin.student"
 TOGGLE_FILE="/data/system/users/0/.lime_state.dat"
 UID_CACHE="/data/local/tmp/.lime_uid.cache"
@@ -190,9 +190,9 @@ unified_watchdog() {
 
     # Throttled delay windows to drop background processing P-core overhead entirely
     if [ ! -f "$TOGGLE_FILE" ]; then
-        sleep 8
+        sleep 2
     else
-        sleep 5
+        sleep 4
     fi
   done
 }
