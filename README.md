@@ -29,12 +29,13 @@ now project breakout and LIME are being updated continously, i spend like 2-3 ho
 - > buff LIME alot more (almost done)
 - > Improve this shitty documentation (half way there)
 - > maybe make LIME supported on IOS?
+- > Buff firewall without nuking internet (DONE)
 
 ## LIMES POTENTIAL FUTURE IMPROVEMENTS
 
 - > prevent lockedin from receiving the boot_completed message from android
 - > add redundency to prevent lockedin from rebooting
-- > buff the firewall WITHOUT nuking the phones internet capabilites
+- > buff the firewall WITHOUT nuking the phones internet capabilites (DONE)
 
 - # NOTE THAT CURRENTLY, LIME HAS ONLY BEEN TESTED ON ANDROID 14, THERES UNCONFIRMED SUPPORT FOR OTHER ANDROID VERSIONS
 - # ALSO LIME IS COMPLETELY UNSUPPORTED ON IOS
