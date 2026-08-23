@@ -95,4 +95,13 @@ ok its almost 11pm and i NEED SLEEP so tomorrow, im going to focus on buffing th
 
 Version 5.1
 
-fixes some bugs in LIME including syntax errors so LIME can function under apatch! however in my testing, LIME wouldnt start automatically, so i made a dedicated APModule so LIME can be booted in 
+fixes some bugs in LIME including syntax errors so LIME can function under apatch! however in my testing, LIME wouldnt start automatically, so i made a dedicated APModule so LIME can be booted automatically
+
+
+Version 5.2
+
+fixed a pretty major bug in the firewall
+
+Version 5.3
+
+tightened the timings so lockedin cant escape LIME as easily
