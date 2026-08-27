@@ -131,6 +131,7 @@ unified_watchdog() {
       pm disable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
       pm disable "$TARGET_PKG/com.lockedin.student.services.LocationForegroundService" 2>/dev/null
       pm disable "$TARGET_PKG/com.lockedin.student.services.PermissionMonitorService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.GeofenceBroadcastReceiver" 2>/dev/null
 
       # 2. Disable Lockedin's background service's
       pm disable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
@@ -220,6 +221,7 @@ unified_watchdog() {
         pm enable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
         pm enable "$TARGET_PKG/com.lockedin.student.services.LocationForegroundService" 2>/dev/null
         pm enable "$TARGET_PKG/com.lockedin.student.services.PermissionMonitorService" 2>/dev/null
+        pm enable "$TARGET_PKG/com.lockedin.student.services.GeofenceBroadcastReceiver" 2>/dev/null
 
         
         # 3.restart lockedin
