@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # Locked In Mirage Exterminator
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v6
+# LIME v6.1
 export PATH=/system/bin:/system/xbin:/apex/com.android.runtime/bin:$PATH
 
 TARGET_PKG="com.lockedin.student"
@@ -129,6 +129,8 @@ unified_watchdog() {
       pm disable "$TARGET_PKG/.services.DeadManSwitchReceiver" 2>/dev/null
       pm disable "$TARGET_PKG/.services.BootReceiver" 2>/dev/null
       pm disable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.LocationForegroundService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.PermissionMonitorService" 2>/dev/null
 
       # 2. Disable Lockedin's background service's
       pm disable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
@@ -216,6 +218,9 @@ unified_watchdog() {
         pm enable "$TARGET_PKG/$TARGET_PKG.services.PermissionCheckWorker" 2>/dev/null
         pm enable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
         pm enable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
+        pm enable "$TARGET_PKG/com.lockedin.student.services.LocationForegroundService" 2>/dev/null
+        pm enable "$TARGET_PKG/com.lockedin.student.services.PermissionMonitorService" 2>/dev/null
+
         
         # 3.restart lockedin
         am force-stop "$TARGET_PKG" 2>/dev/null
