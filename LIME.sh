@@ -12,16 +12,16 @@ get_current_uid() {
     local cache_uid=""
     local disk_uid=""
 
-    # 1. Read and sanitize cache text strings to block hidden syntax errors
+    # 1. Read the cache stored in .lime_uid.cache
     if [ -f "$UID_CACHE" ]; then
         cache_uid=$(cat "$UID_CACHE" | tr -d '[:space:]' | grep -E '^[0-9]+$')
     fi
 
-    # 2. PRIORITY ONE: If a verified, pure numeric cache entry exists, use it instantly
+    # 2. PRIORITY ONE: If a proper cache entry exists, use it instantly
     if [ -n "$cache_uid" ] && [ "$cache_uid" -gt 0 ]; then
         echo "$cache_uid"
     else
-        # 3. FALLBACK: Only scan disk storage blocks if the cache is missing or corrupt
+        # 3. FALLBACK: Only scan storage if the cache is missing or corrupt
         if [ -d "/data/user_de/0/$TARGET_PKG" ]; then
             disk_uid=$(stat -c '%u' "/data/user_de/0/$TARGET_PKG" 2>/dev/null)
         fi
@@ -31,7 +31,7 @@ get_current_uid() {
             disk_uid=$(dumpsys package "$TARGET_PKG" | grep -m1 "userId=" | awk -F= '{print $2}' | tr -d '[:space:]' 2>/dev/null)
         fi
 
-        # Auto-seed the cache with clean numbers for the next boot cycle
+        # put proper Lockedin UID
         if [ -n "$disk_uid" ] && [ "$disk_uid" -gt 0 ]; then
             echo "$disk_uid" > "$UID_CACHE" 2>/dev/null
             echo "$disk_uid"
@@ -47,7 +47,7 @@ rm -f "$TOGGLE_FILE" 2>/dev/null
 
 TARGET_UID=$(get_current_uid)
 if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
-    # Clear out all lingering legacy rules from system memory registers
+    # Clear out all lingering legacy rules
     ip rule del uidrange 10521-10521 lookup 100 2>/dev/null
     ip rule del uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
     ip route flush table 100 2>/dev/null
@@ -85,7 +85,7 @@ unified_watchdog() {
   while true; do
     CURRENT_UID=$(get_current_uid)
     
-    # Automatically catch reinstallation ID shifts or manual cache updates mid-session
+    # Automatically catch reinstallation ID
     if [ -n "$CURRENT_UID" ] && [ "$CURRENT_UID" -gt 0 ] && [ "$CURRENT_UID" != "$last_known_uid" ]; then
         ip rule del uidrange "$last_known_uid-$last_known_uid" lookup 100 2>/dev/null
         iptables -D INPUT -m owner --uid-owner "$last_known_uid" -j DROP 2>/dev/null
@@ -95,7 +95,7 @@ unified_watchdog() {
         last_known_uid="$CURRENT_UID"
     fi
 
-    # Persistent Policy and Firewall Reinforcement Layer
+    # Persistent Firewall Reinforcement Layer
     if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
         if [ ! -f "$TOGGLE_FILE" ]; then
             ip rule show | grep -q "uidrange $TARGET_UID-$TARGET_UID lookup 100" || \
@@ -130,30 +130,30 @@ unified_watchdog() {
       pm disable "$TARGET_PKG/.services.BootReceiver" 2>/dev/null
       pm disable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
 
-      # 2. Disable background service workmanagers
+      # 2. Disable Lockedin's background service's
       pm disable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
       pm disable "$TARGET_PKG/androidx.work.impl.background.systemalarm.SystemAlarmService" 2>/dev/null
       pm disable "$TARGET_PKG/$TARGET_PKG.services.PermissionCheckWorker" 2>/dev/null
       pm disable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
       
-      # 3. Double kill loop execution containment
+      # 3. Double kill loop
       am force-stop "$TARGET_PKG" 2>/dev/null
       pkill -9 -f "$TARGET_PKG" 2>/dev/null
 
-      # Erase system-level wake triggers from the active OS registry
+      # Erase wake triggers
       dumpsys alarm --package "$TARGET_PKG" clear 2>/dev/null
       cmd jobscheduler cancel "$TARGET_PKG" 2>/dev/null
 
-      # SELinux manipulation context split
+      # SELinux manipulation
       if [ -d "/data/data/$TARGET_PKG" ]; then
           chcon -R u:object_r:isolated_app_data_file:s0 "/data/data/$TARGET_PKG" 2>/dev/null
       fi
       
-      # 4. Make android ignore the target app layout visibility
+      # 4. Make android ignore Lockedin.
       pm hide "$TARGET_PKG" 2>/dev/null
       pm suspend "$TARGET_PKG" 2>/dev/null
 
-      # Enforce zero hardware resource capability via scheduler limits
+      # Enforce zero hardware limit
       TARGET_PID=$(pidof "$TARGET_PKG")
       if [ -n "$TARGET_PID" ]; then
           prlimit --pid "$TARGET_PID" --nproc=0 --nofile=0 --cpu=0 2>/dev/null
@@ -170,7 +170,7 @@ unified_watchdog() {
         # Block lockedin from scanning packages on your phone
         cmd appops set $TARGET_PKG GET_USAGE_STATS ignore 2>/dev/null
         
-        # Shuts down notification trays
+        # Shuts down notification perms
         cmd appops set $TARGET_PKG POST_NOTIFICATION ignore 2>/dev/null
         
         # Nuke background service, and block scheduling and alarms
@@ -186,7 +186,7 @@ unified_watchdog() {
         cmd appops set $TARGET_PKG RECORD_AUDIO ignore 2>/dev/null
         cmd appops set $TARGET_PKG BLUETOOTH_VOLUME_CONTROL ignore 2>/dev/null
 
-        # Drops background battery optimization whitelist allowances
+        # Drops background battery optimization whitelist
         cmd deviceidle whitelist -$TARGET_PKG >/dev/null 2>&1
         
         # Lock state flag to save CPU overhead
@@ -217,10 +217,10 @@ unified_watchdog() {
         pm enable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
         pm enable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
         
-        # 3. clear cache footprint traces
+        # 3.restart lockedin
         am force-stop "$TARGET_PKG" 2>/dev/null
 
-        # 4. Restore Full Retail Compliance AppOps for physical inspections
+        # 4. Restore permisions
         cmd appops set $TARGET_PKG FINE_LOCATION allow 2>/dev/null
         cmd appops set $TARGET_PKG COARSE_LOCATION allow 2>/dev/null
         cmd appops set $TARGET_PKG MONITOR_LOCATION allow 2>/dev/null
@@ -236,7 +236,7 @@ unified_watchdog() {
         cmd appops set $TARGET_PKG CAMERA ignore 2>/dev/null
         cmd appops set $TARGET_PKG RECORD_AUDIO ignore 2>/dev/null
         
-        # Reset state tracker flag
+        # Reset tracker flag
         WAS_DISABLED=0
       fi
     fi
