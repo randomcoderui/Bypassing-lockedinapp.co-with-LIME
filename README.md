@@ -113,7 +113,7 @@ no matter how much lockedin tries to stop rooted users. they will have an extrem
 
 ## SECTION 2: THE DEFENSE.
 
-This is gonna be a long one. but i will explain each and every flag and bypass detection. and i will explain how to bypass them, this only includes the important flags, theres a more detailed version if you are interested
+This is gonna be a long one. but i will explain most flags and bypass detection. and i will explain how to bypass them, this only includes the important flags, theres a more detailed version if you are interested
 
 - M0 Root detected
 - N0 Emulator detected
@@ -209,29 +209,51 @@ ok. Here's how the script fights back against lockedin. and ill explain how it u
 
 ## SECTION 4.1: BOOT TIME
 
-as soon as the phone boots. the kernel does its usual android stuff. but here in the post fs stage, magisk will activate and will activate any scripts in /data/adb/service.d
+as soon as the phone boots. the kernel does its usual android stuff. but here in the post fs stage, magisk/apatch will activate and will activate any scripts in /data/adb/service.d
 
 first, so first these lines are executed, so LIME knows what to target, and where to store the toggle file.
+#!/system/bin/sh
+# Locked In Mirage Exterminator
+# THIS IS ONLY TESTED FOR ANDROID 14!
+# LIME v6.1
+export PATH=/system/bin:/system/xbin:/apex/com.android.runtime/bin:$PATH
 
-TARGET_PKG=\"com.lockedin.student\"
-TOGGLE_FILE=\"/data/local/tmp/bypass_on\"
+TARGET_PKG="com.lockedin.student"
+TOGGLE_FILE="/data/system/users/0/.lime_state.dat"
+UID_CACHE="/data/local/tmp/.lime_uid.cache"
 
-get_current_uid() {
-if [ -d \"/data/data/\$TARGET_PKG\" ]; then
-stat -c '%u' \"/data/data/\$TARGET_PKG\" 2>/dev/null
-fi
-}
+lockedin's UID is cached in .lime_uid.cache, it can be edited manaully if LIME fails to detect Lockedin's UID. LIME mainly uses lockedin's UID to enforce the firewall. the watchdog can theoretically run without the cache as it only requires the package name "com.lockedin.student"
 
 ## SECTION 4.2: FIREWALL
 
-then, the firewall engages (we are still in post fs stage) and since the BOOT_COMPLETED message hasn't been broadcast,the firewall will be able to prevent ANY leaks from happening. This firewall targets "com.lockedin.student" and makes it so all the packets immediately DROP.
+then, the firewall engages (we are still in post fs stage moving to the zygote stage) and since the BOOT_COMPLETED message hasn't been broadcast,the firewall will be able to prevent ANY leaks from happening. This firewall targets "com.lockedin.student" and makes it so all the packets immediately DROP. btw the firewall consists of iptable rules AND a network blackhole.
 
-TARGET_UID=\$(get_current_uid)
-if [ -n \"\$TARGET_UID\" ]; then
-iptables -C OUTPUT -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null || iptables -I OUTPUT 1 -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null	
+TARGET_UID=$(get_current_uid)
+if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
+    # Clear out all lingering legacy rules
+    ip rule del uidrange 10521-10521 lookup 100 2>/dev/null
+    ip rule del uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
+    ip route flush table 100 2>/dev/null
+    
+    # Force-inject policy routing tables at priority slot 9999
+    ip route add blackhole default table 100 2>/dev/null
+    ip rule add uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
 
-ip6tables -C OUTPUT -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null ||    ip6tables -I OUTPUT 1 -m owner --uid-owner \"\$TARGET_UID\" -j DROP 2>/dev/null
+    # Bidirectional hardware netfilter drop walls
+    iptables -C INPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
+    iptables -I INPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
+    # Proxy isolation blocks (prevents lockedin from using other apps to send traffic)
+    iptables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
+    iptables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
+    ip6tables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
+    ip6tables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
+
+    # Global hardware connection rejections (Saves battery life by forcing immediate closure)
+    iptables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
+    iptables -I OUTPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
+    ip6tables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
+    ip6tables -I OUTPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 fi
 
 PS: there's a duplicate in case the first iptables rule fails!
@@ -243,19 +265,42 @@ now we have finished booting :D! now LIME will delay itself by 1 second so andro
 while [ \"\$(getprop sys.boot_completed)\" != \"1\" ]; do sleep 1; done
 
 after that. The ultimate executioner is released. The watchdog is unleashed and
-am force-stop is executed! now AM (activity manager) resides in the android framework layer. It's the 2nd layer, above the normal apps, but it's overshadowed by the linux kernel.
+multliple commands execute, which are
+
+     am force-stop "$TARGET_PKG" 2>/dev/null
+      pkill -9 -f "$TARGET_PKG" 2>/dev/null
+
+and 
+
+      # 4. Make android ignore Lockedin.
+      pm hide "$TARGET_PKG" 2>/dev/null
+      pm suspend "$TARGET_PKG" 2>/dev/null
+
+these 4 commands are enough to supress lockedin. it uses AM (activity manager) and pkill. then LIME utilizes pm hide and pm suspend so the package cant execute at all and android will just ignore the apps existence
 
 ## SECTION 4.4: FREEZE!
 
 This is where PM (package manager) comes in, LIME will use PM to disable individual components of lockedin.
+     
+      # 1. Disable Lockedin's core components
+      pm disable --user 0 "$TARGET_PKG/com.lockedin.student.MainActivity" 2>/dev/null
+      pm disable "$TARGET_PKG/.services.BlockAccessibilityService" 2>/dev/null
+      pm disable "$TARGET_PKG/.services.BlockNotificationListener" 2>/dev/null
+      pm disable "$TARGET_PKG/.services.DeadManSwitchReceiver" 2>/dev/null
+      pm disable "$TARGET_PKG/.services.BootReceiver" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.LockedInFirebaseMessagingService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.LocationForegroundService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.PermissionMonitorService" 2>/dev/null
+      pm disable "$TARGET_PKG/com.lockedin.student.services.GeofenceBroadcastReceiver" 2>/dev/null
 
-pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.BlockAccessibilityService\" 2>/dev/null
-pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.StatusService\" 2>/dev/null
-pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.DeadManSwitchReceiver\" 2>/dev/null
-pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.BootReceiver\" 2>/dev/null
-pm disable-user --user 0 \"\$TARGET_PKG/com.lockedin.student.services.PermissionCheckWorker\" 2>/dev/null
+      # 2. Disable Lockedin's background service's
+      pm disable "$TARGET_PKG/androidx.work.impl.background.systemjob.SystemJobService" 2>/dev/null
+      pm disable "$TARGET_PKG/androidx.work.impl.background.systemalarm.SystemAlarmService" 2>/dev/null
+      pm disable "$TARGET_PKG/$TARGET_PKG.services.PermissionCheckWorker" 2>/dev/null
+      pm disable --user 0 "$TARGET_PKG/androidx.work.impl.background.systemalarm.RescheduleReceiver" 2>/dev/null
+      
 
-it disables the dead man's switch, accessibility, status service, the boot receiver (IMPORTANT!!), and permission checker worker, i’ll explain why they need to be blocked
+it disables the dead man's switch, accessibility, status service, the boot receiver (IMPORTANT!!),  permission checker worker, GeofencingBroadcast, LocationMonitoring, Permission monitoring, Firebase, and LIME also takes away the ability for lockedin to reboot itself i’ll explain why they need to be blocked
 
 Accessibility service: Lockedin uses this service to take control of your screen. Once we block this, your screen will be free!
 
@@ -267,17 +312,27 @@ BootReciver: this is blocked so lockedin can't tell if the phone has booted or n
 
 PermissionCheckWorker: this is so lockedin cant tell if its permission is blocked. thats why its disabled
 
+GeofencingBroadcast: this is so lockedin cant use geofencing
+
+LocationMontioring: this is so lockedin cant track your location
+
+Firebase: this is disabled so lockedin cant communicate with its firebase
+
+Workmanager Receiver: this is disabled so lockedin cant reboot itself
+
 ## SECTION 4.5: FEATURES! :D
 
 LIME has some pretty cool features, now some of these features DON'T come with LIME and you may have to set them up on your own, but here's a list
     
-(almost) FULL IMMUNITY, Lockedin cant do anything about LIME since it runs as root.
+(almost) FULL IMMUNITY, Lockedin cant do anything currently about LIME since it runs as root.
 
  BUILT IN FIREWALL, this is a 2nd security layer, this also acts as a half spoof method so lockedin's servers will see an offline state, which isn't suspicious since lockedin can't tell between a firewall or a dead battery. This is crucial so you don't get caught!
   
 a toggle switch! well the toggle is a file, essentially it dictates if LIME is allowed to run, BUT i designed it so the firewall isn't bound to the toggle, and it runs 24/7, only way to disable the firewall is to manually kill the script using pkill and flush the ip rules. Now if you want a home screen widget, you would have to use termux:widgets extension.
 
    SELF HEALING, the firewall is self healing, so if an IT guy tries to flush the ip tables, the firewall immediately reactivates, now this isn't foolproof since if the IT guy finds the script, he can just disable it :/. i mean i cant make the script impossible to remove like cmon thats stupid.
+
+ (NEW) Manaual cache feature, Now you can manually write the UID of lockedin in .lime_uid.cache incase LIME fails to detect the UID.
 
 yeah those are the features of LIME, some are pretty cool :D
 
@@ -374,13 +429,13 @@ red = LIME is failing & not working at all
 
 the maintainer script checks for the process killer, the script toggle, the firewall, and appops perm status.
 
-## SECTION 4.9: why LIME cant be defeated.
+## SECTION 4.9: why LIME is really hard to be defeated.
 
-LIME can almost never be completely defeatd. no matter what patches the lockedin developers throw, rooted users will be able to get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it (modern magisk puts su in /debug_ramdisk). The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script.
+LIME can almost never be completely defeated. no matter what patches the lockedin developers throw, rooted users will be able to somewhat get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it (modern magisk puts su in /debug_ramdisk). The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script.
 
 ## SECTION 5: CLEARING OUT LANDMINES
 
-so im going to explain all 19 flags (theres more flags so scroll up to find them) in detail and how LIME bypasses each of them, this only covers the main flags.
+so im going to explain the important 19 flags (theres more flags so scroll up to find them) in detail and how LIME bypasses each of them, this only covers the main flags.
 
 ## SECTION 5.1: HARDWARE TRIPS
 
@@ -606,7 +661,7 @@ now you can use LIME :D, just go to the discord server and download the latest v
 
 ## SECTION 7: Future Proofing
 
-well, inevitablely, whether i get caught, or if i get snitched on. my IT department might catch me. but as ive said, lockedin cant win against rooted users, so ive compiled a list of patches that they MIGHT do. This is just extra documentation in case this scenario happens.
+well, inevitablely, lockedin is going to find this repository. but as ive said, its really hard for lockedin to win against rooted users, so ive compiled a list of patches that they MIGHT do. This is just extra documentation in case this scenario happens.
 
 PATCH 1: Native self auditing package components
 
@@ -656,7 +711,7 @@ These are all the patches I predict!
 
 Well, now i will explain the hard truth, and why lockedin is bound to 2 rules, now lockedin could patch LIME but it would require an immense amount of time and work, which a startup most likely dosent have.
 
-This is the inevitable loop, lockedin has almost no way to win, they can try all they want, but they can almost never win. If lockedin tries to patch LIME. it would lead to a loop of asymmetric attrition. What that means is basically, lockedin will be LOCKED IN (pun) an inescapable loop. Here's what would happen if lockedin were to try to patch LIME. Scenario 1: it's bypassed easily, or Scenario 2: there will be a lot of false alarms. So Lockedin’s solution will be to move to the server side. But there's one catastrophic problem. The servers are fucking dumb. They can't tell whether someone's battery died, or if they have ass wifi, The server flags it as attempted bypasses anyway. And innocent students will be punished for something they can't control. So that will lead to Scenario 2 happening, which Deans and admins don't like. So lockedin will lose a lot of customers, so they will have to move back to the weaker, client side. In which Scenario 1 will happen. If lockedin were to try to break that loop. They would have to fundamentally break Android's security. And in which google will respond harshly by taking down the app off the play store if they try to cross androids boundaries. That's just the law of android. The same thing will happen to IOS. It's an endless loop. Now I don't even know how lockedin, or any school district did not foresee this in the first place.
+This is the inevitable loop, lockedin has almost no complete way to win, they can try all they want, but they cant completely win. If lockedin tries to patch LIME. it would lead to a loop of asymmetric attrition. What that means is basically, lockedin will be LOCKED IN (pun) an inescapable loop. Here's what would happen if lockedin were to try to patch LIME. Scenario 1: it's bypassed easily, or Scenario 2: there will be a lot of false alarms. So Lockedin’s solution will be to move to the server side. But there's one catastrophic problem. The servers are fucking dumb. They can't tell whether someone's battery died, or if they have ass wifi, The server flags it as attempted bypasses anyway. And innocent students will be punished for something they can't control. So that will lead to Scenario 2 happening, which Deans and admins don't like. So lockedin will lose a lot of customers, so they will have to move back to the weaker, client side. In which Scenario 1 will happen. If lockedin were to try to break that loop. They would have to fundamentally break Android's security. And if lockedin clashes with android's power mechanisms, OR if they use an exploit to get root. google will respond harshly by taking down the app off the play store if they try to cross androids boundaries. That's just the law of android. The same thing will happen to IOS. It's an endless loop. Now I don't even know how lockedin, or any school district did not foresee this in the first place.
 
 ## SECTION 9: Lockedins solutions, and WHY IT WONT WORK
 
@@ -692,7 +747,7 @@ There's no way for lockedin to get around LIME, without breaking 2 rules, they c
 
 CONCLUSION
 
-LIME is nearly unpatchable. That's my statement. If lockedin were to try to patch LIME, it would lead to Asymmetric Attrition. And it would bleed them dry. And if they were to try to break the infinite loop, Lockedin would have to gain root access, which is EXACTLY the behavior as a malware rootkit. So google would immediately take it off the play store. So lockedin is essentially trapped forever. Bound by the laws of android. They tried to weaponize androids features. But we did the UNO Reverse. That is the conclusion of Project Breakout and LIME! I've started this project in May 2026. And I've been progressing and I finally finished in August. Thanks to a specific person warning me about lockedin, i was able to successfully complete this Anyways this is the end of the docs. See yeah!! :D
+LIME cant be completely patched. That's my statement. If lockedin were to try to patch LIME, it would lead to Asymmetric Attrition. And it would bleed them dry. And if they were to try to break the infinite loop, Lockedin would have to gain root access, which is EXACTLY the behavior as a malware rootkit. So google would immediately take it off the play store. So lockedin is essentially trapped. Bound by the laws of android. They tried to weaponize androids features. But we did the UNO Reverse. That is the conclusion of Project Breakout and LIME! I've started this project in May 2026. And I've been progressing and I finally finished in August. Thanks to a specific person warning me about lockedin, i was able to successfully complete this Anyways this is the end of the docs. See yeah!! :D
 
 -zzcyann
 
