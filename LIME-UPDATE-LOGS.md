@@ -117,3 +117,11 @@ Improved UID cache mechanism, and now LIME accepts manual UID configuration
 Version 6
 
 buffed the appops part of LIME, this is significant as this can reduce the geofencing capabilities of lockedin, this also eliminates any background service, also from my own testing, lockedin dosent appear to have any sub processes!
+
+Version 6.1
+
+blocked more services from lockedin
+
+Version 6.2
+
+added pkill -19 as a buff
