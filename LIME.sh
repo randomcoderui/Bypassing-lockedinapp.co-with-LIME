@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # Locked In Mirage Exterminator
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v6.1
+# LIME v6.2
 export PATH=/system/bin:/system/xbin:/apex/com.android.runtime/bin:$PATH
 
 TARGET_PKG="com.lockedin.student"
@@ -47,16 +47,16 @@ rm -f "$TOGGLE_FILE" 2>/dev/null
 
 TARGET_UID=$(get_current_uid)
 if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
-    # Clear out all lingering legacy rules
+    # Clear out all lingering rules
     ip rule del uidrange 10521-10521 lookup 100 2>/dev/null
     ip rule del uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
     ip route flush table 100 2>/dev/null
     
-    # Force-inject policy routing tables at priority slot 9999
+    # Force inject routing tables at slot 9999
     ip route add blackhole default table 100 2>/dev/null
     ip rule add uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
 
-    # Bidirectional hardware netfilter drop walls
+    # Bidirectional netfilter drop walls
     iptables -C INPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I INPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
@@ -66,7 +66,7 @@ if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
     ip6tables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     ip6tables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
-    # Global hardware connection rejections (Saves battery life by forcing immediate closure)
+    # Global hardware connection cutoff (Saves battery life by forcing immediate closure)
     iptables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I OUTPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
     ip6tables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
@@ -85,7 +85,7 @@ unified_watchdog() {
   while true; do
     CURRENT_UID=$(get_current_uid)
     
-    # Automatically catch reinstallation ID
+    # Auto catch reinstallation ID
     if [ -n "$CURRENT_UID" ] && [ "$CURRENT_UID" -gt 0 ] && [ "$CURRENT_UID" != "$last_known_uid" ]; then
         ip rule del uidrange "$last_known_uid-$last_known_uid" lookup 100 2>/dev/null
         iptables -D INPUT -m owner --uid-owner "$last_known_uid" -j DROP 2>/dev/null
@@ -142,6 +142,7 @@ unified_watchdog() {
       # 3. Double kill loop
       am force-stop "$TARGET_PKG" 2>/dev/null
       pkill -9 -f "$TARGET_PKG" 2>/dev/null
+      pkill -19 -f "$TARGET_PKG" 2>/dev/null 
 
       # Erase wake triggers
       dumpsys alarm --package "$TARGET_PKG" clear 2>/dev/null
@@ -205,7 +206,8 @@ unified_watchdog() {
             restorecon -R "/data/data/$TARGET_PKG" 2>/dev/null
         fi
 
-        # 1. Instantly unhide the container, restoring the app icon
+        # 1. make lockedin visible while also unfreezing pkill
+        pkill -18 -f "$TARGET_PKG" 2>/dev/null
         pm unsuspend "$TARGET_PKG" 2>/dev/null
         pm unhide "$TARGET_PKG" 2>/dev/null
         sleep 0.5
@@ -248,7 +250,7 @@ unified_watchdog() {
       fi
     fi
 
-    # Throttled delay windows: 2s checks when active to minimize slips, 4s when paused
+    # Throttled delay windows: 2s checks when active to minimize slips, 4s when paused. this is done to save battery
     if [ ! -f "$TOGGLE_FILE" ]; then sleep 2; else sleep 4; fi
   done
 }
