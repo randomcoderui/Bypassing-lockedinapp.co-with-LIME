@@ -56,17 +56,16 @@ if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
     ip route add blackhole default table 100 2>/dev/null
     ip rule add uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
 
-    # Bidirectional netfilter drop walls
     iptables -C INPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I INPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
-    # Proxy isolation blocks (prevents lockedin from using other apps to send traffic)
+    # proxy isolation blocks (prevents lockedin from using other apps to send traffic)
     iptables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
     ip6tables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     ip6tables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
-    # Global hardware connection cutoff (Saves battery life by forcing immediate closure)
+    #hardware connection cutoff (Saves battery life by forcing immediate closure)
     iptables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I OUTPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
     ip6tables -C OUTPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
@@ -193,7 +192,6 @@ unified_watchdog() {
         # Drops background battery optimization whitelist
         cmd deviceidle whitelist -$TARGET_PKG >/dev/null 2>&1
         
-        # Lock state flag to save CPU overhead
         WAS_DISABLED=1
       fi
     else
