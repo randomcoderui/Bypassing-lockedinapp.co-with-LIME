@@ -323,7 +323,7 @@ Workmanager Receiver: this is disabled so lockedin cant reboot itself
 
 LIME has some pretty cool features, now some of these features DON'T come with LIME and you may have to set them up on your own, but here's a list
     
-(almost) FULL IMMUNITY, Lockedin cant do anything currently about LIME since it runs as root.
+Somewhat undetectable, Lockedin cant do anything currently about LIME since it runs as root, however LIME's actions can be detected but can be neutralized in future updates
 
  BUILT IN FIREWALL, this is a 2nd security layer, this also acts as a half spoof method so lockedin's servers will see an offline state, which isn't suspicious since lockedin can't tell between a firewall or a dead battery. This is crucial so you don't get caught!
   
@@ -430,7 +430,7 @@ the maintainer script checks for the process killer, the script toggle, the fire
 
 ## SECTION 4.9: why LIME is really hard to be defeated.
 
-LIME can almost never be completely defeated. no matter what patches the lockedin developers throw, rooted users will be able to somewhat get around them. LIME runs as a root level script. and it's locked away with SELinux guarding it, and the su binary is somewhere where normal apps CAN'T access it (modern magisk puts su in /debug_ramdisk). The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script.
+LIME can almost never be completely defeated. no matter what patches the lockedin developers throw, rooted users will be able to somewhat get around them. LIME runs as a root level script.  and the su binary is somewhere where normal apps CAN'T access it (modern magisk puts su in /debug_ramdisk and apatch hides su all together since it runs at kernel level). The ONLY way to defeat it is to delete the script off the phone. and even then, i have multiple backups of the script.
 
 ## SECTION 5: CLEARING OUT LANDMINES
 
