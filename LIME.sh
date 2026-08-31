@@ -56,9 +56,6 @@ if [ -n "$TARGET_UID" ] && [ "$TARGET_UID" -gt 0 ]; then
     ip route add blackhole default table 100 2>/dev/null
     ip rule add uidrange "$TARGET_UID-$TARGET_UID" lookup 100 2>/dev/null
 
-    iptables -C INPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
-    iptables -I INPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
-
     # proxy isolation blocks (prevents lockedin from using other apps to send traffic)
     iptables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
     iptables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
@@ -102,9 +99,6 @@ unified_watchdog() {
             
             ip route show table 100 | grep -q "blackhole default" || \
             ip route add blackhole default table 100 2>/dev/null
-
-            iptables -C INPUT -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
-            iptables -I INPUT 1 -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
 
             iptables -C OUTPUT -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null || \
             iptables -I OUTPUT 1 -o lo -m owner --uid-owner "$TARGET_UID" -j DROP 2>/dev/null
