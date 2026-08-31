@@ -125,3 +125,7 @@ blocked more services from lockedin
 Version 6.2
 
 added pkill -19 as a buff
+
+Version 6.3
+
+removed inbound firewall rules since its not really needed, why? well the network blackhole already blocks BOTH inbound and outbound packets, and theres an additional iptable rule to block outbound packets.
