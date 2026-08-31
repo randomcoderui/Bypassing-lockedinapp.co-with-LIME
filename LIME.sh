@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # Locked In Mirage Exterminator
 # THIS IS ONLY TESTED FOR ANDROID 14!
-# LIME v6.2
+# LIME v6.3
 export PATH=/system/bin:/system/xbin:/apex/com.android.runtime/bin:$PATH
 
 TARGET_PKG="com.lockedin.student"
