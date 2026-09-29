@@ -1,8 +1,0 @@
-.class Lkotlin/io/FilesKt__UtilsKt;
-.super Lkotlin/io/FilesKt__FileTreeWalkKt;
-.source "SourceFile"
-
-
-# annotations
-.annotation runtime Lkotlin/Metadata;
-.end annotation
