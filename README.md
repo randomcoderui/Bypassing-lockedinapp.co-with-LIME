@@ -28,6 +28,7 @@ now project breakout and LIME are being updated continously, i spend like 2-3 ho
 - > Improve this shitty documentation (half way there)
 - > maybe make LIME supported on IOS?
 - > Buff firewall without nuking internet (DONE)
+- > Make a variant of LIME thats compatible with shukizu (no root needed!)
 
 ## LIMES POTENTIAL FUTURE IMPROVEMENTS
 
