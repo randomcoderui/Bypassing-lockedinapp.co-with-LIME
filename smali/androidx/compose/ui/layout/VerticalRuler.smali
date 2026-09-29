@@ -1,8 +1,0 @@
-.class public final Landroidx/compose/ui/layout/VerticalRuler;
-.super Landroidx/compose/ui/layout/Ruler;
-.source "SourceFile"
-
-
-# annotations
-.annotation runtime Lkotlin/Metadata;
-.end annotation
