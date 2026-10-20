@@ -2,7 +2,7 @@
 PROJECT BREAKOUT // LIME DOCUMENTATION
 
 BY zzcyann
-
+(plz note that this document might have some wording problems and might be interpreted wrong)
 —----------------------------------------------------------------------------------------------------------------------------
 
 ## LIME is compatiable with magisk and apatch (with a dedicated module)
